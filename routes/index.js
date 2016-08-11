@@ -1,29 +1,28 @@
-/*eslint-env node */
 // MemoApp - routes\index.js
 
-// (a)ä½¿ç¨ã¢ã¸ã¥ã¼ã«ã®èª­ã¿è¾¼ã¿
+// (a)使用モジュールの読み込み
 var express = require('express');
 var uuid = require('node-uuid');
 var moment = require('moment');
 var memo = require('../models/memo');
 var package = require('../package.json');
 
-// (b)ã«ã¼ã¿ã¼ã®ä½æ
+// (b)ルーターの作成
 var router = express.Router();
 
-// (1)ã¡ã¢ä¸è¦§ã®è¡¨ç¤º(ãã¼ã¸è¡¨ç¤º)
+// (1)メモ一覧の表示(ページ表示)
 router.get('/', function(req, res) {
   memo.list(function(err, list) {
     res.render('index', { version : package.version, list : list });
   });
 });
 
-// (2)æ°è¦ã¡ã¢ã®ä½æ(ãã¤ã¢ã­ã°è¡¨ç¤º)
+// (2)新規メモの作成(ダイアログ表示)
 router.get('/memos', function(req, res) {
   res.render('dialog', { id : null, doc : null });
 });
 
-// (3)æ¢å­ã¡ã¢ã®ç·¨é(ãã¤ã¢ã­ã°è¡¨ç¤º)
+// (3)既存メモの編集(ダイアログ表示)
 router.get('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', function(req, res) {
   var id = req.param('id');
 
@@ -32,7 +31,7 @@ router.get('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
   });
 });
 
-// (4)æ°è¦ã¡ã¢ã®ä¿å­
+// (4)新規メモの保存
 router.post('/memos', function(req, res) {
   var id = uuid.v4();
   var doc = {
@@ -46,7 +45,7 @@ router.post('/memos', function(req, res) {
   });
 });
 
-// (5)æ¢å­ã¡ã¢ã®ä¿å­
+// (5)既存メモの保存
 router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', function(req, res) {
   var id = req.param('id');
   var doc = {
@@ -60,7 +59,7 @@ router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
   });
 });
 
-// (6)æ¢å­ã¡ã¢ã®åé¤
+// (6)既存メモの削除
 router.delete('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', function(req, res) {
   var id = req.param('id');
 

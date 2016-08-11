@@ -1,10 +1,9 @@
-/*eslint-env node */
-// MemoApp â models\memo.js (Cloudantç)
+// MemoApp ? models\memo.js (Cloudant版)
 
-// (a)ä½¿ç¨ã¢ã¸ã¥ã¼ã«ã®èª­ã¿è¾¼ã¿
+// (a)使用モジュールの読み込み
 var cradle = require('cradle');
 
-// (b)Cloudantæ¥ç¶æå ±ã®åå¾
+// (b)Cloudant接続情報の取得
 var services = JSON.parse(process.env.VCAP_SERVICES);
 var credentials = services['cloudantNoSQLDB'][0].credentials;
 var host = credentials.host;
@@ -19,25 +18,25 @@ var options = {
   }
 };
 
-// (c)ã¡ã¢ã»ãã¼ã¿ãä¿æãããã¼ã¿ãã¼ã¹
+// (c)メモ・データを保持するデータベース
 var db = new (cradle.Connection)(host, port, options).database('memo');
 
-// (1)ã¡ã¢ä¸è¦§ã®åå¾
+// (1)メモ一覧の取得
 exports.list = function(callback) {
   db.view('memos/list', { descending : true }, callback);
 };
 
-// (2)ã¡ã¢ã®åå¾
+// (2)メモの取得
 exports.get = function(id, callback) {
   db.get(id, callback);
 };
 
-// (3)ã¡ã¢ã®ä¿å­
+// (3)メモの保存
 exports.save = function(id, doc, callback) {
   db.save(id, doc, callback);
 };
 
-// (4)ã¡ã¢ã®åé¤
+// (4)メモの削除
 exports.remove = function(id, callback) {
   db.remove(id, callback);
 };

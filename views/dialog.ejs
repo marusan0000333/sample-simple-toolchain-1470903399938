@@ -1,20 +1,85 @@
+<script type="text/javascript">
+  if (navigator.geolocation) {
+
+    // 現在の位置情報を取得
+    navigator.geolocation.getCurrentPosition(
+
+      // （1）位置情報の取得に成功した場合
+      function (pos) {
+        document.getElementById("ref-latitude").textContent = "緯度"+pos.coords.latitude;
+        document.getElementById("ref-longitude").textContent = "経度"+pos.coords.longitude;
+      },
+      // （2）位置情報の取得に失敗した場合
+      function (error) {
+        var message = "";
+
+        switch (error.code) {
+
+          // 位置情報が取得できない場合
+          case error.POSITION_UNAVAILABLE:
+            message = "位置情報の取得ができませんでした。";
+            break;
+
+          // Geolocationの使用が許可されない場合
+          case error.PERMISSION_DENIED:
+            message = "位置情報取得の使用許可がされませんでした。";
+            break;
+
+          // タイムアウトした場合
+          case error.PERMISSION_DENIED_TIMEOUT:
+            message = "位置情報取得中にタイムアウトしました。";
+            break;
+        }
+        window.alert(message);
+      }
+    );
+  } else {
+    window.alert("本ブラウザではGeolocationが使えません");
+  }
+</script>
+
 <form method="POST" action="/memos<%= id ? '/' + id + '?_method=PUT' : '' %>">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">
       <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
     </button>
-    <h4 class="modal-title" id="modalTitle">メモ</h4>
+    <h4 class="modal-title" id="modalTitle">ボウサイカード情報</h4>
   </div>
   <div class="modal-body">
     <fieldset>
       <div class="form-group">
-        <label for="title">タイトル</label>
+        <label for="title">カード名</label> 
         <input type="text" class="form-control" id="title" name="title" placeholder="タイトル" value="<%= doc ? doc.title : '' %>" autofocus>
+	</br>
+        <label for="title">カード種類</label> 
+	<select name="select">
+	  <option value="value1" selected>被災カード　（シミュレーションゲーム時のダメージに使用）</option>
+	  <option value="value2">アイテムカード　（シミュレーションゲーム時の回復に使用）</option>
+	</select>
+	</br>
+	<label for="title">ランク（自動で付与されます）：★★★★★</label>	
       </div>
       <div class="form-group">
-        <label for="content">本文</label>
+        <label for="title">写真</label>
+	</br>
+	<img src="http://www.saigaichousa-db-isad.jp/drsdb_photo/fileget.do/attach_file/PH/13/28/PH00117579/attach_1272010202400_org.jpg" alt="参考画像" width=300 height=300>
+	<input type="file">
+      </div>
+      <div class="form-group">
+        <label for="content">機能説明</label>
         <textarea class="form-control" id="content" name="content" rows="5" placeholder="本文"><%= doc ? doc.content : '' %></textarea>
       </div>
+      <div class="form-group">
+        <label for="content">取得場所(</label>
+        <label id="ref-latitude" for="content"></label>
+	<label for="content">,</label>
+	<label id="ref-longitude" for="content"></label>
+        <label for="content">)</label>
+
+        <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" autofocus>
+        <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" autofocus>
+      </div>
+
     </fieldset>
   </div>
   <div class="modal-footer">

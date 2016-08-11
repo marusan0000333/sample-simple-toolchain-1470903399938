@@ -11,56 +11,57 @@
   </head>
   <body onload="initialize()">
     <div class="container">
-      <h1>避難情報・採取ツール <small>Version <%= version %></small></h1>
-	<h2>現在地</h2>
-<script type="text/javascript">
-  if (navigator.geolocation) {
+      <h1>ボウサイ情報ハンター <small>Version <%= version %></small></h1>
 
-    // 現在の位置情報を取得
-    navigator.geolocation.getCurrentPosition(
+	<script type="text/javascript">
+	  if (navigator.geolocation) {
 
-      // （1）位置情報の取得に成功した場合
-      function (pos) {
-        var location ="<li>"+"緯度：" + pos.coords.latitude + "</li>";
-        location += "<li>"+"経度：" + pos.coords.longitude + "</li>";
-        document.getElementById("location").innerHTML = location;
-      },
-      // （2）位置情報の取得に失敗した場合
-      function (error) {
-        var message = "";
+	    // 現在の位置情報を取得
+	    navigator.geolocation.getCurrentPosition(
 
-        switch (error.code) {
+	      // （1）位置情報の取得に成功した場合
+	      function (pos) {
+	        var location ="<li>"+"緯度：" + pos.coords.latitude + "</li>";
+	        location += "<li>"+"経度：" + pos.coords.longitude + "</li>";
+	        document.getElementById("location").innerHTML = location;
+		//必要ならHTMLに以下を記載
+		//<ul id="location"></ul>
+	      },
+	      // （2）位置情報の取得に失敗した場合
+	      function (error) {
+	        var message = "";
 
-          // 位置情報が取得できない場合
-          case error.POSITION_UNAVAILABLE:
-            message = "位置情報の取得ができませんでした。";
-            break;
+	        switch (error.code) {
 
-          // Geolocationの使用が許可されない場合
-          case error.PERMISSION_DENIED:
-            message = "位置情報取得の使用許可がされませんでした。";
-            break;
+	          // 位置情報が取得できない場合
+	          case error.POSITION_UNAVAILABLE:
+	            message = "位置情報の取得ができませんでした。";
+	            break;
 
-          // タイムアウトした場合
-          case error.PERMISSION_DENIED_TIMEOUT:
-            message = "位置情報取得中にタイムアウトしました。";
-            break;
-        }
-        window.alert(message);
-      }
-    );
-  } else {
-    window.alert("本ブラウザではGeolocationが使えません");
-  }
-</script>
+	          // Geolocationの使用が許可されない場合
+	          case error.PERMISSION_DENIED:
+	            message = "位置情報取得の使用許可がされませんでした。";
+	            break;
 
-<ul id="location">
-</ul>
+	          // タイムアウトした場合
+	          case error.PERMISSION_DENIED_TIMEOUT:
+	            message = "位置情報取得中にタイムアウトしました。";
+	            break;
+	        }
+	        window.alert(message);
+	      }
+	    );
+	  } else {
+	    window.alert("本ブラウザではGeolocationが使えません");
+	  }
+	</script>
 
 
-	<h2>避難経路</h2>
 
-	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script><script>
+
+	<h2>順路</h2>
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script><script>
 		rendererOptions = {
 			draggable: true,
 			preserveViewport:false
@@ -89,8 +90,8 @@
 
 		function calcRoute() {
 			 var request = {
-				 origin: "西馬込駅",
-				 destination: "馬込駅",
+				 origin: "IBM箱崎",
+				 destination: "中央区立有馬小学校",
 				 travelMode: google.maps.DirectionsTravelMode.WALKING,
 				 unitSystem: google.maps.DirectionsUnitSystem.METRIC,
 				// optimizeWaypoints: true,
@@ -112,13 +113,13 @@
 <div id="map_canvas" style="width:90%; height:300px"></div>
 
 
-	<h2>避難時の参考情報登録</h2>
+	<h2>バインダー</h2>
       <a href="#" data-remote="/memos" class="btn btn-primary" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false">新規作成</a>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead>
             <tr>
-              <th class="col-sm-8">タイトル</th>
+              <th class="col-sm-8">カード名</th>
               <th class="col-sm-3 text-center">更新日時</th>
               <th class="col-sm-1 text-center">削除</th>
             </tr>

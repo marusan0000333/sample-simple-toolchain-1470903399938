@@ -1,63 +1,43 @@
-// MemoApp – models\memo.js (メモリー版)
+/*eslint-env node */
+// MemoApp â models\memo.js (Cloudantç)
 
-// (a)メモ・データを保持するオブジェクト
-var docs = {};
+// (a)ä½¿ç¨ã¢ã¸ã¥ã¼ã«ã®èª­ã¿è¾¼ã¿
+var cradle = require('cradle');
 
-// (1)メモ一覧の取得
+// (b)Cloudantæ¥ç¶æå ±ã®åå¾
+var services = JSON.parse(process.env.VCAP_SERVICES);
+var credentials = services['cloudantNoSQLDB'][0].credentials;
+var host = credentials.host;
+var port = credentials.port;
+var options = {
+  cache : true,
+  raw : false,
+  secure : true,
+  auth : {
+    username : credentials.username,
+    password : credentials.password
+  }
+};
+
+// (c)ã¡ã¢ã»ãã¼ã¿ãä¿æãããã¼ã¿ãã¼ã¹
+var db = new (cradle.Connection)(host, port, options).database('memo');
+
+// (1)ã¡ã¢ä¸è¦§ã®åå¾
 exports.list = function(callback) {
-  var list = Object.keys(docs).map(function(id) {
-    var row = {
-      id : id,
-      title : docs[id].title,
-      updatedAt : docs[id].updatedAt
-    };
-
-    return row;
-  }).sort(function(a, b) {
-    if (a.updatedAt < b.updatedAt)
-      return 1;
-    if (a.updatedAt > b.updatedAt)
-      return -1;
-
-    return 0;
-  });
-
-  process.nextTick(function() {
-    callback(null, list);
-  });
+  db.view('memos/list', { descending : true }, callback);
 };
 
-// (2)メモの取得
+// (2)ã¡ã¢ã®åå¾
 exports.get = function(id, callback) {
-  var doc = {
-    title : docs[id].title,
-    content : docs[id].content,
-    updatedAt : docs[id].updatedAt
-  };
-
-  process.nextTick(function() {
-    callback(null, doc);
-  });
+  db.get(id, callback);
 };
 
-// (3)メモの保存
+// (3)ã¡ã¢ã®ä¿å­
 exports.save = function(id, doc, callback) {
-  docs[id] = {
-    title : doc.title,
-    content : doc.content,
-    updatedAt : doc.updatedAt
-  };
-
-  process.nextTick(function() {
-    callback();
-  });
+  db.save(id, doc, callback);
 };
 
-// (4)メモの削除
+// (4)ã¡ã¢ã®åé¤
 exports.remove = function(id, callback) {
-  delete docs[id];
-
-  process.nextTick(function() {
-    callback();
-  });
+  db.remove(id, callback);
 };

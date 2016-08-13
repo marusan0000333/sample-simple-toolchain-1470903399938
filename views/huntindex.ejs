@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MemoApp</title>
+    <title>Bousai-Go</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<!-- JavaScriptの読み込み -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzTNCHkW3ihWvX1qK5X21mIF6RIJg0hUo"></script>
@@ -11,7 +11,7 @@
   </head>
   <body onload="initialize()">
     <div class="container">
-      <h1>ボウサイ・Go! <small>Version <%= version %></small></h1>
+      <h1>ボウサイGo<small> / Ver.<%= version %></small></h1>
 
 	<script type="text/javascript">
 	  if (navigator.geolocation) {
@@ -59,11 +59,7 @@
 
 
 
-	<h2>順路</h2>
-	<p>IBM箱崎から中央区立有馬小学校（防災拠点）まで避難を想定。経路はドラッグ＆ドロップすると経路を変更できます</p>
-	</br>
-	<a href="http://www.city.chuo.lg.jp/bosai/bosai/hinanjohinnanbasho/kouikihinanbasho.files/chuokubousaimap.pdf">参考：中央区の避難地図</a>
-
+	<h2>ルート</h2>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script><script>
 		rendererOptions = {
 			draggable: true,
@@ -110,10 +106,15 @@
 		}
 	</script>
 
-<div id="map_canvas" style="width:90%; height:300px"></div>
+	<div id="map_canvas" style="width:90%; height:300px"></div>
+
+	<p>IBM箱崎ビルから中央区立有馬小学校（防災拠点）までのルートを表示。
+	経路はドラッグ＆ドロップすると経路を変更できます</p>
+	</br>
+	<a href="http://www.city.chuo.lg.jp/bosai/bosai/hinanjohinnanbasho/kouikihinanbasho.files/chuokubousaimap.pdf">参考：中央区の避難地図</a>
 
 
-	<h2>バインダー</h2>
+	<h2>マイバインダー</h2>
 	<p>見つけた危険場所/防災アイテムをカードとして管理します。100個まで登録できます。</p>
 
       <a href="#" data-remote="/memos" class="btn btn-primary" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false">新規作成</a>

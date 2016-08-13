@@ -10,20 +10,36 @@ var package = require('../package.json');
 // (b)ルーターの作成
 var router = express.Router();
 
-// (0-1)メモ一覧2番目の表示(ページ表示)
+// (1)ログインページの表示(ページ表示)
+router.get('/', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('index', { version : package.version, list : list });
+  });
+});
+
+// (1)メニューページの表示(ページ表示)
+router.post('/menu', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('menu', { version : package.version, list : list });
+  });
+});
+
+// (1)ルート選択ページの表示(ページ表示)
+router.get('/huntroute', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('huntroute', { version : package.version, list : list });
+  });
+});
+
+
+
+// (1)メモ一覧2番目の表示(ページ表示)
 router.get('/huntindex', function(req, res) {
   memo.list(function(err, list) {
     res.render('huntindex', { version : package.version, list : list });
   });
 });
 
-
-// (1)メモ一覧の表示(ページ表示)
-router.get('/', function(req, res) {
-  memo.list(function(err, list) {
-    res.render('index', { version : package.version, list : list });
-  });
-});
 
 // (2)新規メモの作成(ダイアログ表示)
 router.get('/memos', function(req, res) {

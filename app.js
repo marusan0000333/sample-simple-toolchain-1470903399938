@@ -56,6 +56,10 @@ app.use(methodOverride('_method'));
 // (e)ルーティングの設定
 app.use('/', routes);
 
+// (e2)staticルーティングの設定
+// serve the files out of ./public as our main files
+app.use('/static', express.static(__dirname + '/public'));
+
 // (f)リクエストの受け付け
 var server = app.listen(process.env.PORT || 3000, function() {
   console.log('Listening on port %d', server.address().port);

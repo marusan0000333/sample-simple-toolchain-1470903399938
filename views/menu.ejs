@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>B-Son menu</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<style>
+.bs-calltoaction{
+    position: relative;
+    width:auto;
+    padding: 15px 25px;
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+    .bs-calltoaction > .row{
+        display:table;
+        width: calc(100% + 30px);
+    }
+     
+        .bs-calltoaction > .row > [class^="col-"],
+        .bs-calltoaction > .row > [class*=" col-"]{
+            float:none;
+            display:table-cell;
+            vertical-align:middle;
+        }
+
+            .cta-contents{
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+                .cta-title{
+                    margin: 0 auto 15px;
+                    padding: 0;
+                }
+
+                .cta-desc{
+                    padding: 0;
+                }
+
+                .cta-desc p:last-child{
+                    margin-bottom: 0;
+                }
+
+            .cta-button{
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+
+@media (max-width: 991px){
+    .bs-calltoaction > .row{
+        display:block;
+        width: auto;
+    }
+
+        .bs-calltoaction > .row > [class^="col-"],
+        .bs-calltoaction > .row > [class*=" col-"]{
+            float:none;
+            display:block;
+            vertical-align:middle;
+            position: relative;
+        }
+
+        .cta-contents{
+            text-align: center;
+        }
+}
+
+
+
+.bs-calltoaction.bs-calltoaction-default{
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.bs-calltoaction.bs-calltoaction-primary{
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.bs-calltoaction.bs-calltoaction-info{
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.bs-calltoaction.bs-calltoaction-success{
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.bs-calltoaction.bs-calltoaction-warning{
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.bs-calltoaction.bs-calltoaction-danger{
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.bs-calltoaction.bs-calltoaction-primary .cta-button .btn,
+.bs-calltoaction.bs-calltoaction-info .cta-button .btn,
+.bs-calltoaction.bs-calltoaction-success .cta-button .btn,
+.bs-calltoaction.bs-calltoaction-warning .cta-button .btn,
+.bs-calltoaction.bs-calltoaction-danger .cta-button .btn{
+    border-color:#fff;
+}
+</style>
+
+
+<body>
+
+<div class="container">
+            <div class="col-sm-12">
+
+                <div class="bs-calltoaction bs-calltoaction-default">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+                            <h1 class="cta-title">ボウサイGo</h1>
+                            <div class="cta-desc">
+                                <p>「ボウサイ・Go!」は町を歩きながら、ボウサイ情報をゲットするツールです。.</p>
+                                <p>町のボウサイ情報を獲得し、自分だけのゲームを作る素材を集めよう！</p>
+                                <p>※小学生高学年以上を対象</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 cta-button">
+                            <a href="./huntroute" class="btn btn-lg btn-block btn-default">Go for It!</a>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="bs-calltoaction bs-calltoaction-primary">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+                            <h1 class="cta-title">ゲームを作る</h1>
+                            <div class="cta-desc">
+                                <p>ゲーム（DIG）を作って学ぼう.</p>
+                                <p><a href="http://www.pref.shizuoka.jp/bousai/e-quakes/manabu/dig/01/0101.html">DIG（ディグ）</a>
+				（Disaster（災害）、Imagination（想像力）、Game（ゲーム性））の考え方を駆使して防災対策を考えましょう。</p>
+                                <p>ただし、WATSON Dialogの終了の伴い凍結･･･</p>
+                                <p>※小学生高学年以上を対象</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 cta-button">
+                            <a href="#" class="btn btn-lg btn-block btn-primary">Go for It!</a>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="bs-calltoaction bs-calltoaction-info">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+                            <h1 class="cta-title">ゲームで遊ぶ</h1>
+                            <div class="cta-desc">
+                                <p>ボウサイゲーム（DIG)を遊んで学ぼう.</p>
+                                <p>優先的に開発予定。未完</p>
+                                <p>※小学生高学年以下を対象</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 cta-button">
+                            <a href="#" class="btn btn-lg btn-block btn-info">Go for It!</a>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="bs-calltoaction bs-calltoaction-success">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+                            <h1 class="cta-title">WATSON教授に教わる</h1>
+                            <div class="cta-desc">
+                                <p>ボウサイの知識を学ぼう.</p>
+                                <p>対話型WATSONに基づく情報検索ツールだったが、Dialog終了に伴い、開発を凍結.</p>
+                                <p>※小学生高学年以下を対象</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 cta-button">
+                            <a href="#" class="btn btn-lg btn-block btn-success">Go for It!</a>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="bs-calltoaction bs-calltoaction-warning">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+                            <h1 class="cta-title">ボウサイ授業の情報交換</h1>
+                            <div class="cta-desc">
+                                <p>授業で役に立ったボウサイ情報を先生間の中で共有しましょう.</p>
+                                <p>WATSON Document ConversionとR&Rを用いて、先生の中で情報を登録・追加情報を共有し、先生間で改善していくツールです.
+                                （ただし開発は後回し）.</p>
+                                <p>※先生を対象</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 cta-button">
+                            <a href="#" class="btn btn-lg btn-block btn-warning">Go for It!</a>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="bs-calltoaction bs-calltoaction-danger">
+                    <div class="row">
+                        <div class="col-md-9 cta-contents">
+                            <h1 class="cta-title">防災情報のシェア</h1>
+                            <div class="cta-desc">
+                                <p>授業で獲得した防災情報（町の防災情報、防災教育の内容）を匿名で公開しましょう.</p>
+                                <p>公開した情報が次の授業で役に立ちます。
+                                また、被災時や観光者への防災情報提供の情報源になります.（ただし開発は後回し）.</p>
+                                <p>※先生を対象</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 cta-button">
+                            <a href="#" class="btn btn-lg btn-block btn-danger">Go for It!</a>
+                        </div>
+                     </div>
+                </div>
+
+            </div>
+        </div>
+
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>B-Son menu</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<style>
+body
+{
+    background-color: #1b1b1b;
+    padding-top: 40px;
+}
+.form-signin {
+    max-width: 560px;
+    padding: 15px;
+/*    margin:100px; */
+    margin-top:70px;
+  }
+
+.input-group-addon
+{
+    background-color: rgb(50, 118, 177);
+    border-color: rgb(40, 94, 142);
+    color: rgb(255, 255, 255);
+}
+.form-control:focus
+{
+    background-color: rgb(50, 118, 177);
+    border-color: rgb(40, 94, 142);
+    color: rgb(255, 255, 255);
+}
+.form-signup input[type="text"],.form-signup input[type="password"] { border: 1px solid rgb(50, 118, 177); }
+.fullscreen_bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image: url('https://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/GRU_sangakunomachi_TP_V.jpg');
+    background-repeat:repeat;
+  }
+</style>
+
+
+<body>
+
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+
+<form class="form-signin">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 class="text-center">ぼうけんのルートを決めよう</h3>
+			<p>デモ版では、入力値は無視され、IBM箱崎ビルから中央区有馬小学校の固定でセットされます</p>
+
+                    <form class="form form-signup" role="form">
+
+                    <div class="form-group">
+                        <label>出発地</label></br>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span>
+                            </span>
+                            <input type="text" class="form-control" placeholder="出発地" value="IBM箱崎ビル" />
+                        </div>
+                    </div>
+                                        
+                    <div class="form-group">
+                        <label>目的地</label></br>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-road"></span>
+                            </span>
+                            <input type="text" class="form-control" placeholder="目的地" value="中央区立有馬小学校"/>
+                        </div>
+                    </div>
+                                        
+                    
+                </div>
+                <a href="https://sample-simple-toolchain-1470903399938.mybluemix.net/huntindex" class="btn btn-sm btn-primary btn-block" role="button">
+                    決定！</a> </form>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+  </body>
+</html>

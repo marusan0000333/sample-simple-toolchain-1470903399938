@@ -10,6 +10,14 @@ var package = require('../package.json');
 // (b)ルーターの作成
 var router = express.Router();
 
+// (0-1)メモ一覧2番目の表示(ページ表示)
+router.get('/huntindex', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('huntindex', { version : package.version, list : list });
+  });
+});
+
+
 // (1)メモ一覧の表示(ページ表示)
 router.get('/', function(req, res) {
   memo.list(function(err, list) {
@@ -37,6 +45,9 @@ router.post('/memos', function(req, res) {
   var doc = {
     title : req.body.title,
     content : req.body.content,
+    lank : '3',
+    latitude : req.body.latitude,
+    longitude : req.body.longitude,
     updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
   };
 
@@ -51,6 +62,9 @@ router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
   var doc = {
     title : req.body.title,
     content : req.body.content,
+    lank : '3',
+    latitude : req.body.latitude,
+    longitude : req.body.longitude,
     updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
   };
 

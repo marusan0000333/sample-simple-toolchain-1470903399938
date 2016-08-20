@@ -116,7 +116,23 @@ function ChangeTab(tabname) {
     <fieldset>
       <div class="form-group">
         <label for="title">問題文</label> 
-        <input type="text" class="form-control" id="q" name="q"  maxlength='28' placeholder="問題文を記載してください" value="避難する道どこが安全でしょうか">
+
+        <label>問題カテゴリ</label> 
+	<select name="q-selected" id="q-selected">
+		<option value="WHAT">WHAT:～とは何ですか？</option>
+		<option value="WHY">WHY:～はなぜですか？</option>
+		<option value="WHERE">WHERE:～はどこにありますか？</option>
+		<option value="WHEN">WHEN:～とはいつですか？</option>
+		<option value="HOW_MUCH">HOW_MUCH:～はいくらですか？</option>
+		<option value="HOW_MANY">HOW_MANY:～どれぐらい必要ですか？</option>
+		<option value="HOW_LONG">HOW_LONG:～はどのぐらいの期間ですか？</option>
+		<option value="WHO">WHO:～とは誰ですか？</option>
+		<option value="HOW">HOW:～はどうやればよいですか？</option>
+		<option value="WILL">WILL:～とどうなりますか？</option>
+	</select>
+
+        <input type="text" class="form-control" id="q" name="q"  maxlength='28' placeholder="問題文を記載してください" value="避難する道で安全なのはどこですか">
+
       </div>
 
       <div class="form-group">

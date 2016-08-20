@@ -1,0 +1,156 @@
+<script type="text/javascript">
+  if (navigator.geolocation) {
+
+    // 現在の位置情報を取得
+    navigator.geolocation.getCurrentPosition(
+
+      // （1）位置情報の取得に成功した場合
+      function (pos) {
+        document.getElementById("ref-latitude").textContent = "緯度"+pos.coords.latitude;
+        document.getElementById("ref-longitude").textContent = "経度"+pos.coords.longitude;
+      },
+      // （2）位置情報の取得に失敗した場合
+      function (error) {
+        var message = "";
+
+        switch (error.code) {
+
+          // 位置情報が取得できない場合
+          case error.POSITION_UNAVAILABLE:
+            message = "位置情報の取得ができませんでした。";
+            break;
+
+          // Geolocationの使用が許可されない場合
+          case error.PERMISSION_DENIED:
+            message = "位置情報取得の使用許可がされませんでした。";
+            break;
+
+          // タイムアウトした場合
+          case error.PERMISSION_DENIED_TIMEOUT:
+            message = "位置情報取得中にタイムアウトしました。";
+            break;
+        }
+        window.alert(message);
+      }
+    );
+  } else {
+    window.alert("本ブラウザではGeolocationが使えません");
+  }
+</script>
+
+<script type="text/javascript">
+<!--
+function ChangeTab(tabname) {
+   // 全部消す
+   document.getElementById('tab1').style.display = 'none';
+   document.getElementById('tab2').style.display = 'none';
+      // 指定箇所のみ表示
+      if(tabname) {
+         document.getElementById(tabname).style.display = 'block';
+      }	   
+}
+// -->
+</script>
+
+<form method="POST" action="/memos<%= id ? '/' + id + '?_method=PUT' : '' %>">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
+    </button>
+    <h4 class="modal-title" id="modalTitle">ボウサイカード</h4>
+
+    <fieldset>
+
+      <div class="form-group">
+        <label for="category">カテゴリ</label> 
+	<select name="select">
+	  <option value="value1" selected>危険箇所</option>
+	  <option value="value2">防災アイテム</option>
+	  <option value="value3">防災知識</option>
+	</select>
+	</br>
+      </div>
+
+      <div class="form-group">
+        <label for="title">カード名</label> 
+        <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>">
+      </div>
+    </fieldset>
+
+  </div>
+  <div class="tabbox">
+    <p class="tabs">
+      <a href="#tab1" class="tab1" onclick="ChangeTab('tab1'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">表面</a>
+      <a href="#tab2" class="tab2" onclick="ChangeTab('tab2'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">裏面</a>
+    </p>
+
+  <div class="modal-body">
+    <div id="tab1" class="tab">
+    <fieldset>
+      <div class="form-group">
+        <label for="attach">画像</label>
+	</br>
+	<img src="http://www.saigaichousa-db-isad.jp/drsdb_photo/fileget.do/attach_file/PH/13/28/PH00117579/attach_1272010202400_org.jpg" alt="参考画像" width=300 height=300>
+	<input type="file">
+      </div>
+
+      <div class="form-group">
+        <label for="content">説明</label>
+        <textarea class="form-control" id="content" name="content" rows="5"  maxlength='140' placeholder="説明文を記載してください"><%= doc ? doc.content : '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="latlong">取得場所　(現在地：</label>
+        <label id="ref-latitude" for="latitude"></label>
+	<label for="latitude">,</label>
+	<label id="ref-longitude" for="longitude"></label>
+        <label for="longitude">)</label>
+
+        <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" autofocus>
+        <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" autofocus>
+      </div>
+    </fieldset>
+    </div>
+
+    <div id="tab2" class="tab">
+    <fieldset>
+      <div class="form-group">
+        <label for="title">問題文</label> 
+        <input type="text" class="form-control" id="q" name="q"  maxlength='28' placeholder="問題文を記載してください" value="避難する道どこが安全でしょうか">
+      </div>
+
+      <div class="form-group">
+        <label for="title">回答文（4択）</label> 
+	<br>
+        <label>1</label> <input type="text" class="form-control" id="a1" name="a1"  maxlength='28' placeholder="回答文を記載してください" value="地盤の安定した道の真ん中">
+        <label>2</label><input type="text" class="form-control" id="a2" name="a2"  maxlength='28' placeholder="回答文を記載してください" value="見渡しやすい川の通り沿い">
+        <label>3</label><input type="text" class="form-control" id="a3" name="a3"  maxlength='28' placeholder="回答文を記載してください" value="海辺の道">
+        <label>4</label><input type="text" class="form-control" id="a4" name="a4"  maxlength='28' placeholder="回答文を記載してください" value="家の間にある細い裏道">
+      </div>
+
+      <div class="form-group">
+        <label for="category">正解</label> 
+	</br>
+	<select name="select">
+	  <option value="value1" selected>1</option>
+	  <option value="value2">2</option>
+	  <option value="value3">3</option>
+	  <option value="value4">4</option>
+	</select>
+      </div>
+    </fieldset>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">保存</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
+  </div>
+
+	<script type="text/javascript">
+	<!-- // デフォルトのタブを選択
+	  ChangeTab('tab1');
+	-->
+	</script>
+
+</form>
+

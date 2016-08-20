@@ -18,32 +18,32 @@ router.get('/', function(req, res) {
 });
 
 // (1)メニューページの表示(ページ表示)
-router.post('/menu', function(req, res) {
+router.get('/menu', function(req, res) {
   memo.list(function(err, list) {
     res.render('menu', { version : package.version, list : list });
   });
 });
 
 // (1)ルート選択ページの表示(ページ表示)
-router.get('/huntroute', function(req, res) {
+router.get('/3/huntroute', function(req, res) {
   memo.list(function(err, list) {
-    res.render('huntroute', { version : package.version, list : list });
+    res.render('3/huntroute', { version : package.version, list : list });
   });
 });
 
 
 
 // (1)メモ一覧2番目の表示(ページ表示)
-router.get('/huntindex', function(req, res) {
+router.get('/3/huntindex', function(req, res) {
   memo.list(function(err, list) {
-    res.render('huntindex', { version : package.version, list : list });
+    res.render('3/huntindex', { version : package.version, list : list });
   });
 });
 
 
 // (2)新規メモの作成(ダイアログ表示)
 router.get('/memos', function(req, res) {
-  res.render('dialog', { id : null, doc : null });
+  res.render('3/dialog', { id : null, doc : null });
 });
 
 // (3)既存メモの編集(ダイアログ表示)
@@ -51,7 +51,7 @@ router.get('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
   var id = req.param('id');
 
   memo.get(id, function(err, doc) {
-    res.render('dialog', { id : id, doc : doc });
+    res.render('3/dialog', { id : id, doc : doc });
   });
 });
 
@@ -68,7 +68,7 @@ router.post('/memos', function(req, res) {
   };
 
   memo.save(id, doc, function(err) {
-    res.redirect('/');
+    res.redirect('/3/huntindex');
   });
 });
 
@@ -85,7 +85,7 @@ router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
   };
 
   memo.save(id, doc, function(err) {
-    res.redirect('/');
+    res.redirect('/3/huntindex');
   });
 });
 
@@ -94,8 +94,28 @@ router.delete('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-
   var id = req.param('id');
 
   memo.remove(id, function(err) {
-    res.redirect('/');
+    res.redirect('/3/huntindex');
   });
 });
+
+
+
+
+
+// (5)[]tohome
+router.get('/5/toHome_menu', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('5/toHome_menu', { version : package.version, list : list });
+  });
+});
+
+// (5)[]tohome
+router.get('/5/toHome_index', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('5/toHome_index', { version : package.version, list : list });
+  });
+});
+
+
 
 module.exports = router;

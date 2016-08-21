@@ -59,7 +59,67 @@ function ChangeSelectbox(id_name){
       }
    }
 }
+
+function LoadImage(src){
+   // alert(src);
+   if (src!='undefined'){
+	document.getElementById("loadimage").src = src;
+   }
+}
+
 // -->
+</script>
+
+
+<script>
+// Check for the various File API support.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
+</script>
+
+
+<script>
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    document.getElementById('list').textContent = null;
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+
+//	var base64data = e.target.result.split(",");;
+//          span.innerHTML = ['<img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/><input  name="attachment_name" id="" value="', theFile.name,'"><input  name="attachment_content_type" id="" value="', theFile.type,'"><input  name="attachment_lastModifiedDate" id="" value="', theFile.lastModifiedDate,'"><input  name="attachment_size" id="" value="', theFile.size,'"><input  name="attachment_base64" id="" value="', base64data[1],'">'].join('');
+//          span.innerHTML = ['"アップロード予定の画像"<br><img class="thumb" " src="', e.target.result,'" title="', escape(theFile.name), '"/><br><input  type="hidden"  name="attachment_name" id="attachment_name" value="', theFile.name,'"><br><input type="hidden" name="attachment_content_type" id="attachment_content_type" value="', theFile.type,'"><br><input type="hidden" name="attachment_lastModifiedDate" id="attachment_lastModifiedDate" value="', theFile.lastModifiedDate,'"><br><input type="hidden" name="attachment_size" id="attachment_size" value="', theFile.size,'"><br><input type="hidden" name="attachment_base64" id="attachment_base64" value="', e.target.result,'">'].join('');
+          span.innerHTML = ['"アップロード予定の画像"<br><img class="thumb" src="', e.target.result,'" title="', escape(theFile.name), '"/><input style="display:none" name="attachment_name" id="attachment_name" value="', theFile.name,'"><input style="display:none" name="attachment_content_type" id="attachment_content_type" value="', theFile.type,'"><input style="display:none" name="attachment_lastModifiedDate" id="attachment_lastModifiedDate" value="', theFile.lastModifiedDate,'"><input style="display:none" name="attachment_size" id="attachment_size" value="', theFile.size,'"><input style="display:none" name="attachment_base64" id="attachment_base64" value="', e.target.result,'">'].join('');
+
+          document.getElementById('list').appendChild(span);
+
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+
+    }
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
 </script>
 
 <form method="POST" action="/memos<%= id ? '/' + id + '?_method=PUT' : '' %>">
@@ -72,7 +132,7 @@ function ChangeSelectbox(id_name){
     <fieldset>
       <div class="form-group">
         <label for="title">カード名</label> 
-        <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>">
+        <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>" required>
       </div>
 
   <div class="tabbox">
@@ -89,8 +149,11 @@ function ChangeSelectbox(id_name){
     <div id="tab1" class="tab">
     <fieldset>
       <div class="form-group">	
-	<img src="http://www.saigaichousa-db-isad.jp/drsdb_photo/fileget.do/attach_file/PH/13/28/PH00117579/attach_1272010202400_org.jpg" alt="参考画像" width=300 height=300>
-	<input type="file">
+	<img id="loadimage" src="" >
+
+	<!-- <input type="file" id="files" name="files[]" multiple /> -->
+	<input type="file" id="files" name="files[]"  />
+	<output id="list"></output>
       </div>
 
       <div class="form-group">
@@ -139,9 +202,9 @@ function ChangeSelectbox(id_name){
 	<br>
         <label for="title">間違った回答</label> 
 	<br>
-        <input type="text" class="form-control" id="bad_answer1" name="bad_answer1"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer1 : '' %>">
-        <input type="text" class="form-control" id="bad_answer2" name="bad_answer2"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer2 : '' %>">
-        <input type="text" class="form-control" id="bad_answer3" name="bad_answer3"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer3 : '' %>">
+        <input type="text" class="form-control" id="bad_answer1" name="bad_answer1" maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer1 : '' %>">
+        <input type="text" class="form-control" id="bad_answer2" name="bad_answer2" maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer2 : '' %>">
+        <input type="text" class="form-control" id="bad_answer3" name="bad_answer3" maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer3 : '' %>">
       </div>
 
       <div class="form-group">
@@ -166,6 +229,7 @@ function ChangeSelectbox(id_name){
 	<!-- // デフォルトのタブを選択
 	ChangeTab('tab1');
 	ChangeSelectbox('<%= doc ? doc.question_class : '' %>');
+	LoadImage('<%= doc ? doc.attachment_base64 : '' %>');
 	-->
 	</script>
 

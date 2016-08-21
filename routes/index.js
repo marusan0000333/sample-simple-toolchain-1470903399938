@@ -72,6 +72,11 @@ router.post('/memos', function(req, res) {
     information : req.body.information,
     ref_url : req.body.ref_url,
     public_permission : 'local',
+    attachment_name : req.body.attachment_name,
+    attachment_content_type : req.body.attachment_content_type,
+    attachment_lastModifiedDate : req.body.attachment_lastModifiedDate,
+    attachment_size : req.body.attachment_size,
+    attachment_base64 : req.body.attachment_base64,
     createAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss'),
     updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
   };
@@ -98,6 +103,11 @@ router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
     information : req.body.information,
     ref_url : req.body.ref_url,
     public_permission : 'local',
+    attachment_name : req.body.attachment_name,
+    attachment_content_type : req.body.attachment_content_type,
+    attachment_lastModifiedDate : req.body.attachment_lastModifiedDate,
+    attachment_size : req.body.attachment_size,
+    attachment_base64 : req.body.attachment_base64,
 //    createAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss'),//作成日は更新しない
     updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
   };

@@ -152,7 +152,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 	<img id="loadimage" src="" >
 
 	<!-- <input type="file" id="files" name="files[]" multiple /> -->
-	<input type="file" id="files" name="files[]"  />
+	<input type="file" id="files" name="files[]" />
 	<output id="list"></output>
       </div>
 
@@ -163,8 +163,8 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 	<label id="ref-longitude" for="longitude"></label>
         <label for="longitude">)</label>
 
-        <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" autofocus>
-        <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" autofocus>
+        <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" >
+        <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" >
       </div>
 
     </fieldset>

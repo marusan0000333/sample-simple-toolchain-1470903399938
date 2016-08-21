@@ -60,10 +60,19 @@ router.post('/memos', function(req, res) {
   var id = uuid.v4();
   var doc = {
     title : req.body.title,
-    content : req.body.content,
-    lank : '3',
     latitude : req.body.latitude,
     longitude : req.body.longitude,
+    content : req.body.content,
+    question_class : req.body.question_class,
+    question : req.body.question,
+    answer : req.body.answer,
+    bad_answer1 : req.body.bad_answer1,
+    bad_answer2 : req.body.bad_answer2,
+    bad_answer3 : req.body.bad_answer3,
+    information : req.body.information,
+    ref_url : req.body.ref_url,
+    public_permission : 'local',
+    createAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss'),
     updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
   };
 
@@ -77,10 +86,19 @@ router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
   var id = req.param('id');
   var doc = {
     title : req.body.title,
-    content : req.body.content,
-    lank : '3',
     latitude : req.body.latitude,
     longitude : req.body.longitude,
+    content : req.body.content,
+    question_class : req.body.question_class,
+    question : req.body.question,
+    answer : req.body.answer,
+    bad_answer1 : req.body.bad_answer1,
+    bad_answer2 : req.body.bad_answer2,
+    bad_answer3 : req.body.bad_answer3,
+    information : req.body.information,
+    ref_url : req.body.ref_url,
+    public_permission : 'local',
+//    createAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss'),//作成日は更新しない
     updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
   };
 

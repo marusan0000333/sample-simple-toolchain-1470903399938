@@ -49,6 +49,16 @@ function ChangeTab(tabname) {
          document.getElementById(tabname).style.display = 'block';
       }	   
 }
+
+function ChangeSelectbox(id_name){
+   pulldown_option = document.getElementById("question_class").getElementsByTagName('option');
+   for(i=0; i<pulldown_option.length;i++){
+      if(pulldown_option[i].value == id_name){
+         pulldown_option[i].selected = true;
+         break;
+      }
+   }
+}
 // -->
 </script>
 
@@ -57,50 +67,34 @@ function ChangeTab(tabname) {
     <button type="button" class="close" data-dismiss="modal">
       <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
     </button>
-    <h4 class="modal-title" id="modalTitle">ボウサイカード</h4>
+    <h4 class="modal-title" id="modalTitle">ボウサイカード　＜実践＞</h4>
 
     <fieldset>
-
-      <div class="form-group">
-        <label for="category">カテゴリ</label> 
-	<select name="select">
-	  <option value="value1" selected>危険箇所</option>
-	  <option value="value2">防災アイテム</option>
-	  <option value="value3">防災知識</option>
-	</select>
-	</br>
-      </div>
-
       <div class="form-group">
         <label for="title">カード名</label> 
         <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>">
       </div>
-    </fieldset>
 
-  </div>
   <div class="tabbox">
     <p class="tabs">
       <a href="#tab1" class="tab1" onclick="ChangeTab('tab1'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">表面</a>
       <a href="#tab2" class="tab2" onclick="ChangeTab('tab2'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">裏面</a>
     </p>
+  </div>
+
+    </fieldset>
+
 
   <div class="modal-body">
     <div id="tab1" class="tab">
     <fieldset>
-      <div class="form-group">
-        <label for="attach">画像</label>
-	</br>
+      <div class="form-group">	
 	<img src="http://www.saigaichousa-db-isad.jp/drsdb_photo/fileget.do/attach_file/PH/13/28/PH00117579/attach_1272010202400_org.jpg" alt="参考画像" width=300 height=300>
 	<input type="file">
       </div>
 
       <div class="form-group">
-        <label for="content">説明</label>
-        <textarea class="form-control" id="content" name="content" rows="5"  maxlength='140' placeholder="説明文を記載してください"><%= doc ? doc.content : '' %></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="latlong">取得場所　(現在地：</label>
+        <label for="latlong">入手場所　(現在地：</label>
         <label id="ref-latitude" for="latitude"></label>
 	<label for="latitude">,</label>
 	<label id="ref-longitude" for="longitude"></label>
@@ -109,16 +103,16 @@ function ChangeTab(tabname) {
         <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" autofocus>
         <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" autofocus>
       </div>
+
     </fieldset>
     </div>
 
     <div id="tab2" class="tab">
     <fieldset>
       <div class="form-group">
-        <label for="title">問題文</label> 
-
         <label>問題カテゴリ</label> 
-	<select name="q-selected" id="q-selected">
+	<br>
+	<select name="question_class" id="question_class">
 		<option value="WHAT">WHAT:～とは何ですか？</option>
 		<option value="WHY">WHY:～はなぜですか？</option>
 		<option value="WHERE">WHERE:～はどこにありますか？</option>
@@ -131,32 +125,38 @@ function ChangeTab(tabname) {
 		<option value="WILL">WILL:～とどうなりますか？</option>
 	</select>
 
-        <input type="text" class="form-control" id="q" name="q"  maxlength='28' placeholder="問題文を記載してください" value="避難する道で安全なのはどこですか">
-
-      </div>
-
-      <div class="form-group">
-        <label for="title">回答文（4択）</label> 
 	<br>
-        <label>1</label> <input type="text" class="form-control" id="a1" name="a1"  maxlength='28' placeholder="回答文を記載してください" value="地盤の安定した道の真ん中">
-        <label>2</label><input type="text" class="form-control" id="a2" name="a2"  maxlength='28' placeholder="回答文を記載してください" value="見渡しやすい川の通り沿い">
-        <label>3</label><input type="text" class="form-control" id="a3" name="a3"  maxlength='28' placeholder="回答文を記載してください" value="海辺の道">
-        <label>4</label><input type="text" class="form-control" id="a4" name="a4"  maxlength='28' placeholder="回答文を記載してください" value="家の間にある細い裏道">
+
+        <label for="title">問題文</label> 
+        <textarea class="form-control" id="question" name="question" rows="2"  maxlength='70' placeholder="問題文を記載してください"><%= doc ? doc.question : '' %></textarea>
+
       </div>
 
       <div class="form-group">
-        <label for="category">正解</label> 
-	</br>
-	<select name="select">
-	  <option value="value1" selected>1</option>
-	  <option value="value2">2</option>
-	  <option value="value3">3</option>
-	  <option value="value4">4</option>
-	</select>
+        <label for="title">正解の回答</label> 
+	<br>
+        <input type="text" class="form-control" id="answer" name="answer"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.answer : '' %>">
+	<br>
+        <label for="title">間違った回答</label> 
+	<br>
+        <input type="text" class="form-control" id="bad_answer1" name="bad_answer1"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer1 : '' %>">
+        <input type="text" class="form-control" id="bad_answer2" name="bad_answer2"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer2 : '' %>">
+        <input type="text" class="form-control" id="bad_answer3" name="bad_answer3"  maxlength='28' placeholder="回答文を記載してください" value="<%= doc ? doc.bad_answer3 : '' %>">
       </div>
+
+      <div class="form-group">
+        <label for="content">カードの説明</label>
+        <textarea class="form-control" id="information" name="information" rows="5"  maxlength='140' placeholder="説明文を記載してください"><%= doc ? doc.information : '' %></textarea>
+
+        <label for="title">参考情報リンク</label> 
+        <input type="text" class="form-control" id="ref_url" name="ref_url" maxlength='180' placeholder="URL" value="<%= doc ? doc.ref_url : '' %>">
+
+      </div>
+
     </fieldset>
     </div>
   </div>
+
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary">保存</button>
     <button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
@@ -164,7 +164,8 @@ function ChangeTab(tabname) {
 
 	<script type="text/javascript">
 	<!-- // デフォルトのタブを選択
-	  ChangeTab('tab1');
+	ChangeTab('tab1');
+	ChangeSelectbox('<%= doc ? doc.question_class : '' %>');
 	-->
 	</script>
 

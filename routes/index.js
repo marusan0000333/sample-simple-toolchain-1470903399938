@@ -73,7 +73,7 @@ router.post('/memos', function(req, res) {
     ref_url : req.body.ref_url,
     public_permission : 'local',
     attachment_name : req.body.attachment_name,
-    attachment_content_type : req.body.attachment_content_type,
+    attachment_type : req.body.attachment_type,
     attachment_lastModifiedDate : req.body.attachment_lastModifiedDate,
     attachment_size : req.body.attachment_size,
     attachment_base64 : req.body.attachment_base64,
@@ -104,7 +104,7 @@ router.put('/memos/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{
     ref_url : req.body.ref_url,
     public_permission : 'local',
     attachment_name : req.body.attachment_name,
-    attachment_content_type : req.body.attachment_content_type,
+    attachment_type : req.body.attachment_type,
     attachment_lastModifiedDate : req.body.attachment_lastModifiedDate,
     attachment_size : req.body.attachment_size,
     attachment_base64 : req.body.attachment_base64,
@@ -144,6 +144,56 @@ router.get('/5/toHome_index', function(req, res) {
   });
 });
 
+
+
+
+// (1)メモ一覧2番目の表示(ページ表示)
+router.get('/7/openindex', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('7/openindex', { version : package.version, list : list });
+  });
+});
+
+// (3)既存メモの編集(ダイアログ表示)
+router.get('/memos7/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', function(req, res) {
+  var id = req.param('id');
+
+  memo.get(id, function(err, doc) {
+    res.render('7/dialog', { id : id, doc : doc });
+  });
+});
+
+
+// (5)既存メモの保存
+router.put('/memos7/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', function(req, res) {
+  var id = req.param('id');
+  var doc = {
+    title : req.body.title,
+    latitude : req.body.latitude,
+    longitude : req.body.longitude,
+    content : req.body.content,
+    question_class : req.body.question_class,
+    question : req.body.question,
+    answer : req.body.answer,
+    bad_answer1 : req.body.bad_answer1,
+    bad_answer2 : req.body.bad_answer2,
+    bad_answer3 : req.body.bad_answer3,
+    information : req.body.information,
+    ref_url : req.body.ref_url,
+    public_permission : req.body.public_permission,
+    attachment_name : req.body.attachment_name,
+    attachment_type : req.body.attachment_type,
+    attachment_lastModifiedDate : req.body.attachment_lastModifiedDate,
+    attachment_size : req.body.attachment_size,
+    attachment_base64 : req.body.attachment_base64,
+//    createAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss'),//作成日は更新しない
+    updatedAt : moment().zone('+0900').format('YYYY/MM/DD HH:mm:ss')
+  };
+
+  memo.save(id, doc, function(err) {
+    res.redirect('/7/openindex');
+  });
+});
 
 
 module.exports = router;

@@ -2,16 +2,6 @@
 <script type="text/javascript">
 <!--
 
-function ChangePermissionSelectbox(id_name){
-   pulldown_option = document.getElementById("public_permission").getElementsByTagName('option');
-   for(i=0; i<pulldown_option.length;i++){
-      if(pulldown_option[i].value == id_name){
-         pulldown_option[i].selected = true;
-         break;
-      }
-   }
-}
-
 function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,attachment_size,attachment_base64){
 
    document.getElementById("loadimage").src = attachment_base64;
@@ -28,25 +18,17 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
 
 
 
-<form method="POST" action="/memos7<%= id ? '/' + id + '?_method=PUT' : '' %>">
+<form method="POST" action="/memos8<%= id ? '/' + id + '?_method=PUT' : '' %>">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">
       <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
     </button>
-    <h4 class="modal-title" id="modalTitle">ボウサイカード　＜実践＞</h4>
-	<p>防災カードを公開しましょう。（今は、保存できません）</p>
+    <h4 class="modal-title" id="modalTitle">ボウサイカード</h4>
+
     <fieldset>
 
       <div class="form-group">
-        <label for="title">公開情報</label> 
-	<br>
-	<select name="public_permission" id="public_permission">
-		<option value="local">非公開</option>
-		<option value="public">公開</option>
-	</select>
-      </div>
-      <div class="form-group">
-        <label for="title">カード名（伝えたいこと）</label> 
+        <label for="title">カード名（メッセージ）</label> 
         <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>" disabled>
       </div>
 
@@ -83,6 +65,7 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
         <label for="content">撮影時メモ</label>
         <textarea class="form-control" id="information" name="information" rows="5"  maxlength='140' placeholder="説明文を記載してください" disabled><%= doc ? doc.information : '' %></textarea>
       </div>
+
       <div class="form-group">
         <label for="latlong">場所</label>
         <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" disabled>
@@ -102,13 +85,11 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary">保存</button>
     <button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
   </div>
 
 	<script type="text/javascript">
-	<!-- // デフォルトのタブを選択
-	ChangePermissionSelectbox('<%= doc ? doc.public_permission : '' %>');
+	<!-- 
 	LoadImage('<%= doc ? doc.attachment_name : '' %>','<%= doc ? doc.attachment_type : '' %>','<%= doc ? doc.attachment_lastModifiedDate : '' %>','<%= doc ? doc.attachment_size : '' %>','<%= doc ? doc.attachment_base64 : '' %>');
 	-->
 	</script>

@@ -24,6 +24,37 @@ router.get('/menu', function(req, res) {
   });
 });
 
+
+
+
+// (2-1)menu
+router.get('/2/playmenu', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('2/playmenu', { version : package.version, list : list });
+  });
+});
+
+// (2-2-1)メモ一覧2番目の表示(ページ表示)
+router.get('/2/playindex', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('2/playindex', { version : package.version, list : list });
+  });
+});
+
+
+// (2-2-2)既存メモの編集(ダイアログ表示)
+router.get('/memos2/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})', function(req, res) {
+  var id = req.param('id');
+
+  memo.get(id, function(err, doc) {
+    res.render('2/dialog', { id : id, doc : doc });
+  });
+});
+
+
+
+
+
 // (3-1)ルート選択ページの表示(ページ表示)
 router.get('/3/huntroute', function(req, res) {
   memo.list(function(err, list) {
@@ -200,6 +231,15 @@ router.get('/5/toHome_menu', function(req, res) {
 router.get('/5/toHome_index', function(req, res) {
   memo.list(function(err, list) {
     res.render('5/toHome_index', { version : package.version, list : list });
+  });
+});
+
+
+
+// (6-1) learning
+router.get('/6/learnindex', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('6/learnindex', { version : package.version, list : list });
   });
 });
 

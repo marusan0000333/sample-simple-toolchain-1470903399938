@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bousai-Go</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>ボウサイカード　＜理論＞<small> / 新規作成</small></h1>
+	<p>ボウサイの一般原理を登録します。登録した情報はボウサイカード（理論編）として登録されます。こちらはデモ画面のみのページです。</p>
+        <p style="color: #dddddd;">
+        ※回答の文書元は今はWikipediaに基づく手作り方式の画面レイアウトだが、
+       最終的には新聞記事や各種PDFに対してWatson Document Conversionを用いたバリエーション対応および、要約機能による半自動化方式に変更を予定。
+       </p>
+
+<hr width="90%">
+      <h2>質問</h2>
+	<p>質問は「教えて！ワトソンさん」で関連度が低かった質問に対して、リスト化されます</p>
+
+<hr width="90%">
+      <fieldset>
+	<h3>質問検索</h3>
+        <input type="text" size="80" id="searchKeyword" value="避難訓練">
+        <input type="button" id="searchKeyword" value="検索">
+	<h3>検索結果</h3>
+      <div class="table-responsive">
+        <table id="tbl1" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th class="col-sm-6">質問内容</th>
+              <th class="col-sm-4">質問カテゴリ</th>
+              <th class="col-sm-6 text-center">質問日時</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td>
+                避難訓練とは何ですか？
+              </td>
+              <td>
+                WHAT:～とは何ですか？
+              </td>
+              <td class="text-center">
+                2016/08/22 16:00:00
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                避難とは何ですか？
+              </td>
+              <td>
+                WHAT:～とは何ですか？
+              </td>
+              <td class="text-center">
+                2016/08/22 16:00:00
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                避難場所はどこにありますか？
+              </td>
+              <td>
+                WHERE:～はどこにありますか？
+              </td>
+              <td class="text-center">
+                2016/08/22 16:00:00
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button type="button" class="btn btn-primary">選択</button>
+
+	<br>
+<hr width="90%">
+
+	<script type="text/javascript">
+	<!--
+	    function jump() {
+		document.getElementById("ref_url").value = "https://ja.wikipedia.org/wiki/" + document.getElementById("askWHtext").value;
+		window.open(document.getElementById("ref_url").value, null);
+	    }
+	-->
+	</script>
+
+	<h2>参考情報検索（Wikipedia）</h2>
+	<p>検索すると、関連ボウサイ情報(URL)に自動入力されます。</p>
+        <input type="text" size="80" id="askWHtext" value="津波">
+        <input type="button" id="askWHbtn" value="質問" onClick="jump()">
+
+<hr width="90%">
+
+	<h2>回答の登録</h2>
+	<h3>タイトル</h3>
+        <input type="text" class="form-control" id="answer" name="answer"  maxlength='28' placeholder="回答文を記載してください" value="避難訓練は個人または集団で行われる災害のこと">
+
+	<h3>回答詳細</h3>
+        <textarea class="form-control" id="answer_detail" name="answer_detail" rows="5"  maxlength='140' placeholder="説明文を記載してください">避難訓練は、避難経路を覚え、災害時のパニック状態を抑制し、いざという時の手順を覚える為に行われる訓練である。逆効果になった例：2011年3月11日に起きた東北地方太平洋沖地震で、岩手県釜石市で拠点避難所（2次避難所）に避難した住民のうち54名が、津波にのまれた。</textarea>
+	<br>
+        <label for="title">関連ボウサイ情報(URL)</label> 
+        <input type="text" class="form-control" id="ref_url" name="ref_url" maxlength='180' placeholder="URL" value="https://ja.wikipedia.org/wiki/避難訓練">
+      </fieldset>
+	<br>
+      <button type="button" class="btn btn-primary">保存</button>
+	<br>
+	<br>
+
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

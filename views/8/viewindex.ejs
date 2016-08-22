@@ -62,7 +62,7 @@
 
 	<br>
 
-
+<hr width="90%">
 	<h2>避難経路</h2>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script><script>
 		rendererOptions = {
@@ -115,9 +115,27 @@
 	<p>今の場所から避難場所までのルートを表示。
 	経路はドラッグ＆ドロップすると経路を変更できます</p>
 
+<hr width="90%">
+	<h2>防災情報</h2>
+	<p>今いる近くにあるボウサイ情報を表示します。（公開フラグが立っている情報のみ公開する予定だが、デモ版ではすべて表示されます）</p>
 
-	<h2>情報リスト</h2>
-	<p>今いる近くにあるボウサイカードを表示します。（公開フラグが立っている情報のみ公開する予定だが、デモ版ではすべて表示されます）</p>
+        <h3 class="cta-title">教えて！ワトソンさん</h3><small>（演繹法による理解のための一般原理検索エンジン）</small>
+        <p>ボウサイ情報でわからない一般知識は、ワトソンさんに聞いてみましょう。（質問ボタンを押すと、画面遷移します）</p>
+        <p style="color: #dddddd;">
+	※教えてワトソンと同じ、一般知識や新聞記事情報を情報源にR&RのSolr検索を想定。<br>
+        ※ゆくゆくはRankerの学習サイクルや、対話フローによる絞込みを想定。
+	</p>
+        <input type="text" size="80" id="askWHtext" value="非常食定義配達サービスとは何ですか？">
+        <input type="button" id="askWHbtn" value="質問" onClick="location.href='https://sample-simple-toolchain-1471153182415.mybluemix.net/'">
+
+        <h3 class="cta-title">それどこ？ワトソンさん</h3><small>（帰納法による理解のための事例検索型エンジン）</small>
+        <p>実世界の中で探している情報をワトソンさんに聞くことで、ワトソンさんが知っている情報を教わることができます。（見た目だけで、質問ボタンは未済）</p>
+        <p style="color: #dddddd;">
+	※防災ゲームの質問と応答・撮影メモを情報源にR&RのSolr検索を想定。<br>
+        ※ゆくゆくはRankerの学習サイクルや、対話フローによる絞込みを想定。。
+	</p>
+        <input type="text" size="80" id="askWtext" value="危険箇所はどこにありますか">
+        <input type="button" id="askWbtn" value="質問">
 
       <div class="table-responsive">
         <table class="table table-striped table-hover">
@@ -142,7 +160,7 @@
         </table>
       </div>
 
-
+<hr width="90%">
 	<h2>私はXXです</h2>
 	<p>観光に行くときに、自分が誰かを証明するもの（避難用のトリアージのようなもの）を保持しておきましょう。</p>
 	<a href="https://www.gotokyo.org/jp/administration/h24/saigaiji.html">参考：外国人旅行者の安全確保のための災害時初動対応マニュアル</a>
@@ -205,6 +223,7 @@
         </table>
       </div>
 
+<hr width="90%">
 	<h2>もしも被災したら、、被災情報共有</h2>
 	 <p>自分の近くにいる同一国や関係者と情報を交換しましょう。（外国人旅行者向けサービス）</p>
 
@@ -216,9 +235,8 @@
 	</select>
 	<br>
 	<br>
-	<textarea id="LatestNews" cols="70" rows="1">工事中の場合はどうやって迂回するんだ</textarea>
-	<input type="button" id="askButton" value="音" onClick="askQuestion()">
-        <input type="button" id="askButton" value="つぶやく" onClick="askQuestion()">
+        <input type="text" size="80" id="askWtext" value="みんな、帰国準備してる？">
+        <input type="button" id="askWbtn" value="つぶやく">
 	<br>
 	      <div class="table-responsive">
 	        <table class="table table-striped table-hover">
@@ -248,7 +266,7 @@
 	          </tbody>
 	        </table>
 
-
+<hr width="90%">
 	<h2>もしも被災したら、、、備品購入</h2>
 	 <p>自分の現地銀行から予め決めておいたお金と振込して、避難所へ物資を調達しましょう</p>
 

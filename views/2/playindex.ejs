@@ -16,19 +16,19 @@
 
 	<br>
         <label for="title">クエスト名</label> 
-        <input type="text" class="form-control" id="game_name" name="game_name" maxlength='28' placeholder="ゲーム名" value="デモ用ゲーム１" required>
+        <input type="text" class="form-control" id="game_name" name="game_name" maxlength='28' placeholder="ゲーム名" value="デモ用ゲーム１" readonly>
 	<br>
 
 	<h2>避難プロローグ</h2>
       <div class="form-group">
         <label for="title">日時・天気・気温</label> 
-        <input type="text" class="form-control" id="game_templ" name="game_templ" maxlength='28' placeholder="季節" value="2016/8/1 16:00頃　晴れ　31度" required>
+        <input type="text" class="form-control" id="game_templ" name="game_templ" maxlength='28' placeholder="季節" value="2016/8/1 16:00頃　晴れ　31度" readonly>
 	<br>
         <label for="title">被災場所</label> 
-        <input type="text" class="form-control" id="game_field" name="game_field" maxlength='28' placeholder="場所" value="箱崎ビル室内" required>
+        <input type="text" class="form-control" id="game_field" name="game_field" maxlength='28' placeholder="場所" value="箱崎ビル室内" readonly>
 	<br>
         <label for="title">状況</label> 
-        <input type="text" class="form-control" id="game_situ" name="game_situ" maxlength='28' placeholder="状況" value="車椅子生活。仕事しているとき。役に立ちそうなのはカバンに飲み物のみ。" required>
+        <input type="text" class="form-control" id="game_situ" name="game_situ" maxlength='28' placeholder="状況" value="車椅子生活。仕事しているとき。役に立ちそうなのはカバンに飲み物のみ。" readonly>
       </div>
 
 	<h2>避難ルート</h2>
@@ -85,7 +85,6 @@
 	</br>
 
 	<h2>チェックポイントクイズ</h2>
-	<p>避難途中にチェックポイントをおいて、ボウサイカードをもちいたクイズを登録します</p>
 	<p>避難途中にチェックポイントをおいて、ボウサイカードをもちいたクイズに回答します</p>
 	<p>残課題１：「クイズとなるシチュエーション（状況変化説明：夜になってきました。→クイズ：毛布の質問）といったシミュレーションゲームにしたい</p>
 	<p>残課題２：回答したカードをGetするコレクター機能。コレクトしたカードによって擬人プレイヤーの敬称が変わるような成長を感じられるもの</p>
@@ -104,7 +103,7 @@
             <% list.forEach(function(row) { %>
             <tr>
               <td>
-                <a href="#" data-remote="/memos4/<%= row.id %>" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false"><%= row.title %></a>
+                <a href="#" data-remote="/memos2/<%= row.id %>" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false"><%= row.title %></a>
               </td>
               <td class="text-center">
                 <%= row.updatedAt %>
@@ -122,9 +121,7 @@
     </div>
   <div class="modal-footer">
     <p>デモ版では下記ボタンは使用できません</p>
-    <button type="button" class="btn btn-info">カード追加</button>
-    <button type="button" class="btn btn-info">カード削除</button>
-    <button type="button" class="btn btn-primary">クエスト保存</button>
+    <button type="button" class="btn btn-primary">クエスト終了</button>
     <button type="button" class="btn btn-primary">キャンセル</button>
   </div>
 

@@ -1,0 +1,155 @@
+
+
+<script type="text/javascript">
+<!--
+function ChangeTab(tabname) {
+   // 全部消す
+   document.getElementById('tab1').style.display = 'none';
+   document.getElementById('tab2').style.display = 'none';
+      // 指定箇所のみ表示
+      if(tabname) {
+         document.getElementById(tabname).style.display = 'block';
+      }	   
+}
+function ChangeSelectbox(id_name){
+   pulldown_option = document.getElementById("question_class").getElementsByTagName('option');
+   for(i=0; i<pulldown_option.length;i++){
+      if(pulldown_option[i].value == id_name){
+         pulldown_option[i].selected = true;
+         break;
+      }
+   }
+}
+function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,attachment_size,attachment_base64){
+   document.getElementById("loadimage").src = attachment_base64;
+   document.getElementById("attachment_name").value = attachment_name;
+   document.getElementById("attachment_type").value = attachment_type;
+   document.getElementById("attachment_lastModifiedDate").value = attachment_lastModifiedDate;
+   document.getElementById("attachment_size").value = attachment_size;
+   document.getElementById("attachment_base64").value = attachment_base64;
+}
+// -->
+</script>
+
+<form method="POST" action="/memos4<%= id ? '/' + id + '?_method=PUT' : '' %>">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
+    </button>
+    <h4 class="modal-title" id="modalTitle">ボウサイカード　＜実践＞</h4>
+
+    <fieldset>
+      <div class="form-group">
+        <label for="title">カード名</label> 
+        <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>" readonly>
+      </div>
+
+  <div class="tabbox" style="display: none;">
+    <p class="tabs">
+      <a href="#tab1" class="tab1" onclick="ChangeTab('tab1'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">カード面</a>
+      <a href="#tab2" class="tab2" onclick="ChangeTab('tab2'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">ゲーム用クイズ</a>
+    </p>
+  </div>
+
+    </fieldset>
+
+
+  <div class="modal-body">
+    <div id="tab1" class="tab">
+    <fieldset>
+      <div class="form-group">	
+
+	<input style="display:none" name="attachment_name" id="attachment_name" value="">
+	<input style="display:none" name="attachment_type" id="attachment_type" value="">
+	<input style="display:none" name="attachment_lastModifiedDate" id="attachment_lastModifiedDate" value="">
+	<input style="display:none" name="attachment_size" id="attachment_size" value="">
+	<input style="display:none" name="attachment_base64" id="attachment_base64" value="">
+
+	<!-- 
+	<input name="attachment_name" id="attachment_name" value="">
+	<input name="attachment_type" id="attachment_type" value="">
+	<input name="attachment_lastModifiedDate" id="attachment_lastModifiedDate" value="">
+	<input name="attachment_size" id="attachment_size" value="">
+	<input name="attachment_base64" id="attachment_base64" value="">
+	-->
+
+	<!-- <input type="file" id="files" name="files[]" multiple /> -->
+	<!-- <input type="file" id="files" name="files[]" /> -->
+      </div>
+
+      <div class="form-group">
+        <label for="content">撮影時メモ</label>
+        <textarea class="form-control" id="information" name="information" rows="5"  maxlength='140' placeholder="説明文を記載してください" readonly><%= doc ? doc.information : '' %></textarea>
+
+        <label for="title">関連情報リンク</label> 
+        <input type="text" class="form-control" id="ref_url" name="ref_url" maxlength='180' placeholder="URL" value="<%= doc ? doc.ref_url : '' %>" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="latlong">入手場所</label>
+        <input type="text" class="form-control" id="edit-latitude" name="latitude" placeholder="緯度" value="<%= doc ? doc.latitude : '' %>" readonly>
+        <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" readonly>
+      </div>
+
+    </fieldset>
+    </div>
+
+    <div id="tab2" class="tab">
+    <fieldset>
+      <div class="form-group">
+<!--
+
+        <label>問題カテゴリ</label> 
+	<br>
+	<select name="question_class" id="question_class" readonly>
+		<option value="WHAT">WHAT:～とは何ですか？</option>
+		<option value="WHY">WHY:～はなぜですか？</option>
+		<option value="WHERE">WHERE:～はどこにありますか？</option>
+		<option value="WHEN">WHEN:～とはいつですか？</option>
+		<option value="HOW_MUCH">HOW_MUCH:～はいくらですか？</option>
+		<option value="HOW_MANY">HOW_MANY:～どれぐらい必要ですか？</option>
+		<option value="HOW_LONG">HOW_LONG:～はどのぐらいの期間ですか？</option>
+		<option value="WHO">WHO:～とは誰ですか？</option>
+		<option value="HOW">HOW:～はどうやればよいですか？</option>
+		<option value="WILL">WILL:～とどうなりますか？</option>
+	</select>
+-->
+	<br>
+
+        <label for="title">問題文</label> 
+        <textarea class="form-control" id="question" name="question" rows="2"  maxlength='70' placeholder="問題文を記載してください" readonly><%= doc ? doc.question : '' %></textarea>
+
+	<br>
+	<img id="loadimage" src="" >
+
+      </div>
+
+      <div class="form-group">
+        <label for="title">回答（1問選択）</label> 
+	<br>
+	<button type="button" class="btn btn-success" data-dismiss="modal"><%= doc ? doc.answer : '' %></button>
+	<br>
+	<button type="button" class="btn btn-warning" data-dismiss="modal"><%= doc ? doc.bad_answer1 : '' %></button>
+	<br>
+	<button type="button" class="btn btn-info" data-dismiss="modal"><%= doc ? doc.bad_answer2 : '' %></button>
+	<br>
+	<button type="button" class="btn btn-primary" data-dismiss="modal"><%= doc ? doc.bad_answer3 : '' %></button>
+      </div>
+
+    </fieldset>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
+  </div>
+
+	<script type="text/javascript">
+	<!-- // デフォルトのタブを選択
+	ChangeTab('tab2');
+	ChangeSelectbox('<%= doc ? doc.question_class : '' %>');
+	LoadImage('<%= doc ? doc.attachment_name : '' %>','<%= doc ? doc.attachment_type : '' %>','<%= doc ? doc.attachment_lastModifiedDate : '' %>','<%= doc ? doc.attachment_size : '' %>','<%= doc ? doc.attachment_base64 : '' %>');
+	-->
+	</script>
+
+</form>

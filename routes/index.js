@@ -1,4 +1,4 @@
-// MemoApp - routes\index.js
+// BousaiApp - routes\index.js
 
 // (a)使用モジュールの読み込み
 var express = require('express');
@@ -25,6 +25,12 @@ router.get('/menu', function(req, res) {
 });
 
 
+// (1-1)test
+router.get('/1/index', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('1/index', { version : process.env.itsumo_navi, list : list });
+  });
+});
 
 
 // (2-1)menu

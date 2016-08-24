@@ -8,6 +8,27 @@
 	<!-- JavaScriptの読み込み -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzTNCHkW3ihWvX1qK5X21mIF6RIJg0hUo"></script>
 
+
+<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js&enc=UTF-8&force=1" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+    /* 東京 */
+    var map,
+        lat = 35.6778614, lon = 139.7703167;
+
+    function loadMap() {
+        map = new ZDC.Map(
+            document.getElementById('ZMap'),
+            {
+                latlon: new ZDC.LatLon(lat, lon),
+                zoom: 3
+            }
+        );
+    };
+//]]>
+</script>
+
+
   </head>
   <body onload="initialize()">
     <div class="container">
@@ -89,6 +110,7 @@
 			   'directions_changed', function(){
 			 });
 			 calcRoute();
+			loadMap();
 		}
 
 		function calcRoute() {
@@ -293,7 +315,6 @@
 		<option value="FR">YYY小学校</option>
 	</select>
 	<br>
-
 	<br>
 	<br>
 
@@ -306,6 +327,9 @@
         </div>
       </div>
     </div>
+
+<div id="ZMap" style="border:1px solid #777777; width:500px; height:300px; top:0px; left:20px; position:absolute;"></div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">

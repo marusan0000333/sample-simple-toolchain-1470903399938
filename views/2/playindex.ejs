@@ -7,6 +7,39 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<!-- JavaScriptの読み込み -->
 <!--	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzTNCHkW3ihWvX1qK5X21mIF6RIJg0hUo"></script> -->
+<style>
+.arrow_box {
+	position: relative;
+	background: #background-color: #000000;
+	border: 2px solid #ffffff;
+}
+.arrow_box:after, .arrow_box:before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box:after {
+	border-color: rgba(0, 0, 0, 0);
+	border-left-color: #background-color: #000000;
+	border-width: 10px;
+	margin-top: -10px;
+}
+.arrow_box:before {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #ffffff;
+	border-width: 13px;
+	margin-top: -13px;
+}
+.message{
+	color: #ffffff;
+}
+</style>
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 <script type='text/javascript'>
@@ -18,28 +51,70 @@ rendererOptions = {
 var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 var directionsService = new google.maps.DirectionsService();
 
-  var mapCanvas;
-var tokyo = new google.maps.LatLng(35.689614,139.691585);
-var osaka = new google.maps.LatLng(34.686272,135.519649);
-var def = new google.maps.LatLng(35.679413,139.786198);
+var mapCanvas;
+var streetView;
+    //ストリートビューオブジェクトの作成
+    //http://crisis.yahoo.co.jp/shelter/map/
+    //http://user.numazu-ct.ac.jp/~tsato/webmap/sphere/coordinates/advanced.html
+    //日本, 〒812-0011 福岡県福岡市博多区博多駅前３丁目２?１ 日本生命博多駅前ビル 33.588592, 130.418505
+    //明治公園 33.588618 130.417736
+    //日本, 〒812-0011 福岡県福岡市博多区博多駅前４丁目１１?１２ 東住吉公民館 33.586176 130.418465
+var start = new google.maps.LatLng(33.588592,130.418505);
+var ckpt = new google.maps.LatLng(33.588618,130.417736);
+var end = new google.maps.LatLng(33.586176,130.418465);
 
-function setTokyo() {
-  mapCanvas.setCenter(tokyo);
+function setStart() {
+  mapCanvas.setCenter(start);
+  mapCanvas.setZoom(17); 
+  
+  offMessageBox();
+  var message ="近くの公園に逃げよう！<br>それにしても、、、あ”づい”でぢゅう(水分-5)”";
+  document.getElementById("message").innerHTML = message;
+  
+  document.getElementById("life").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage.png";
+  document.getElementById("pika").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png";
+  onMessageBox();
 }
-function setOsaka() {
-  mapCanvas.setCenter(osaka);
+function setCheckPoint() {
+  mapCanvas.setCenter(ckpt);
+  mapCanvas.setZoom(17); 
+
+  offMessageBox();
+  var message ="公園ついた！<br>あっ！！ここは避難所じゃない・・・でち”ゅう(水分-30)";
+  document.getElementById("message").innerHTML = message;
+
+  document.getElementById("life").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage2.png";
+  document.getElementById("pika").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic2.png";
+  onMessageBox();
 }
-function setDefault() {
-  mapCanvas.setCenter(def);
+function setEnd() {
+  mapCanvas.setCenter(end);
+  mapCanvas.setZoom(17); 
+  
+  offMessageBox();
+  var message ="避難所ついた。<br>やったー。";
+  document.getElementById("message").innerHTML = message;
+
+  document.getElementById("life").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage3.png";
+  document.getElementById("pika").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png";
+  onMessageBox();
+}
+
+function offMessageBox() {
+  document.getElementById('messageBox').style.display = 'none';
+}
+function onMessageBox() {
+  document.getElementById('messageBox').style.display = 'block';
 }
 
   function calcRoute() {
 	 var request = {
-		 origin: "IBM箱崎",
-		 destination: "中央区立有馬小学校",
+		 origin: start, //"日本生命博多駅前ビル",
+		 destination: end, //"東住吉公民館",
+		 waypoints: [ { location: ckpt, stopover: true} ],
 		 travelMode: google.maps.DirectionsTravelMode.WALKING,
 		 unitSystem: google.maps.DirectionsUnitSystem.METRIC,
-		// optimizeWaypoints: true,
+		 optimizeWaypoints: true,
 		 provideRouteAlternatives: true,
 		 avoidHighways: false,
 		 avoidTolls: false
@@ -49,7 +124,6 @@ function setDefault() {
 			  if (status == google.maps.DirectionsStatus.OK){
 			  directionsDisplay.setDirections(response);}
 		  });
-     mapCanvas.setZoom(20);
   }
 
   function initialize(){
@@ -70,34 +144,21 @@ function setDefault() {
     calcRoute();
 
     //ストリートビューオブジェクトの作成
-    //〒103-0015 東京都中央区日本橋箱崎町１８-２４ 35.679413, 139.786198
-
+    //日本, 〒812-0011 福岡県福岡市博多区博多駅前３丁目２?１ 日本生命博多駅前ビル 33.588592, 130.418505
     var streetViewDiv = document.getElementById("streetview_canvas");
     var streetViewOptions = {
-      position : new google.maps.LatLng(35.679413, 139.786198)
+      position : new google.maps.LatLng(33.588592, 130.418505),
+      pov: { heading: 270.0, pitch:10, zoom:0 }
     };
-    var streetView = new google.maps.StreetViewPanorama(streetViewDiv, streetViewOptions);
+    streetView = new google.maps.StreetViewPanorama(streetViewDiv, streetViewOptions);
     
     //地図とストリートビューを連動する
     mapCanvas.setStreetView(streetView);
     
     //ストリートビューの位置を地図と連動する
     mapCanvas.bindTo("center", streetView, "position");
-    
-    //ストリートビューの青いレイヤーを表示する
-    //(http://googlemaps.googlermania.com/google_maps_api_v3/ja/map_example_streetview_layer.html)
-    var streetViewLayer = new google.maps.ImageMapType({
-      getTileUrl : function(coord, zoom) {
-        return "http://www.google.com/cbk?output=overlay&zoom=" + zoom + "&x=" + coord.x + "&y=" + coord.y + "&cb_client=api";
-      },
-      tileSize: new google.maps.Size(256, 256)
-    });
-    mapCanvas.overlayMapTypes.insertAt(0, streetViewLayer);
-
-
   }
   google.maps.event.addDomListener(window, "load", initialize);
- 
  </script>
 
 
@@ -106,9 +167,14 @@ function setDefault() {
   </head>
   <body onload="initialize()">
     <div class="container">
-      <h1>クエスト作成<small> / 更新日時：2016/6/1 14:01:30</small></h1>
-	<p>ゲームを作ってボウサイを学ぼう。災害を想像してゲームを作成する体験を”DIG”を体験しましょう。</p>
+      <h1>クエスト<small> / デモ用ゲーム１</small></h1>
+	<p>アバターの<span style="color:#ff0000;">ピカチ・・・</span>黄色い生物と一緒に避難しましょう。
+	<br>
+	このゲームは<a href="http://www.zettai-zetsumei.jp/">絶体絶命都市シリーズ</a>の
+	<a href="https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%A5">オマージュ</a>です
+	</p>
 
+<!--
 	<br>
         <label for="title">クエスト名</label> 
         <input type="text" class="form-control" id="game_name" name="game_name" maxlength='28' placeholder="ゲーム名" value="デモ用ゲーム１" readonly>
@@ -117,35 +183,46 @@ function setDefault() {
 	<h2>避難プロローグ</h2>
       <div class="form-group">
         <label for="title">日時・天気・気温</label> 
-        <input type="text" class="form-control" id="game_templ" name="game_templ" maxlength='28' placeholder="季節" value="2016/8/1 16:00頃　晴れ　31度" readonly>
+        <input type="text" class="form-control" id="game_templ" name="game_templ" maxlength='28' placeholder="季節" value="2016/8/28 16:00頃　晴れ　31度" readonly>
 	<br>
         <label for="title">被災場所</label> 
-        <input type="text" class="form-control" id="game_field" name="game_field" maxlength='28' placeholder="場所" value="箱崎ビル室内" readonly>
+        <input type="text" class="form-control" id="game_field" name="game_field" maxlength='28' placeholder="場所" value="博多駅周辺ビジネス街" readonly>
 	<br>
         <label for="title">状況</label> 
-        <input type="text" class="form-control" id="game_situ" name="game_situ" maxlength='28' placeholder="状況" value="車椅子生活。仕事しているとき。役に立ちそうなのはカバンに飲み物のみ。" readonly>
+        <input type="text" class="form-control" id="game_situ" name="game_situ" maxlength='28' placeholder="状況" value="ハッカソンに参加している途中で震度7クラスの地震が来た。手持ちアイテムは水のみ" readonly>
       </div>
+-->
+	<h3 style="color:#ff0000;">震度7クラスの地震発生！</h3>
+	 <div class="form-group" style="position: relative;  width: 100%; height: 400px">
+	  <div id="streetview_canvas"  style="position: absolute; z-index: 1; width: 100%; height: 400px"></div>
+	  
+	  <div id="map_canvas" style="position: absolute; z-index: 2; width: 150px; height: 150px"></div>
+	<!-- 時間切れのため、ハッカソンではID直接書きで実装する・・・無念 -->
+      <a href="#" data-remote="http://sample-simple-toolchain-1470903399938.mybluemix.net/memos2/ed1e504e-c261-4f9f-b6f1-29473acfc50b" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false">
+	  <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/Q1.png" height="20px" width="20px" style="position: absolute; z-index: 3; bottom:10px; left:10px;" onclick="setStart();">
+      </a>
+      
+      <a href="#" data-remote="http://sample-simple-toolchain-1470903399938.mybluemix.net/memos2/096a40b0-7d5b-40b0-855c-6b0bcd512dcc" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false">
+	  <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/Q1.png" height="20px" width="20px" style="position: absolute; z-index: 4; bottom:10px; left:40px;" onclick="setCheckPoint();">
+      </a>
 
-	<h2>避難ルート</h2>
- <div class="form-group" style="position: relative;  width: 100%; height: 300px">
-  <div id="streetview_canvas"  style="position: absolute; z-index: 1; width: 100%; height: 300px"></div>
-  <div id="map_canvas" style="position: absolute; z-index: 2; width: 200px; height: 200px"></div>
-  <img src="https://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png" height="40px" width="40px" border="1" style="position: absolute; z-index: 3; bottom:0%; right:10px;" onclick="setTokyo();">
-  <img src="https://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic2.png" height="40px" width="40px" border="1" style="position: absolute; z-index: 4; bottom:0%; right:50px;"  onclick="setOsaka();">
-  <img src="https://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/newapp-icon.png" height="40px" width="40px" border="1" style="position: absolute; z-index: 5; bottom:0%; right:100px;" onclick="setDefault();">
- </div>
+      <a href="#" data-remote="http://sample-simple-toolchain-1470903399938.mybluemix.net/memos2/b453b9f8-f928-4905-a3b7-68d0c30e7a92" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false">
+	  <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/Q1.png" height="20px" width="20px" style="position: absolute; z-index: 5; bottom:10px; left:70px;" onclick="setEnd();">
+      </a>
 
-	<p style="position:static;">IBM箱崎ビルから中央区立有馬小学校（防災拠点）までのルートを表示。
-	経路はドラッグ＆ドロップすると経路を変更できます</p>
-	</br>
-
+      <div id='messageBox' class='arrow_box' height="40px" width="300px" style="position: absolute; z-index: 6; bottom:10px; right:100px;" onclick="offMessageBox();">
+        <p class='message' id='message'>地震だ！</p>
+      </div>    
+	  <img id='life' src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage.png" height="20px" width="60%" style="position: absolute; z-index: 7; top:10px; right:50px;">
+	  <img id='pika' src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png" height="40px" width="40px" border="1" style="position: absolute; z-index: 8; bottom:10px; right:50px;" onclick="onMessageBox();">
+	 </div>
+    <button type="button" class="btn btn-success">ワトソンさんに聞く</button>
+    <button type="button" class="btn btn-info">アイテムを使う</button>
+    <span style="color:#dddddd;">デモ版では左記ボタンは使用できません</span>
+	<br>
+<!--
 	<h2>チェックポイントクイズ</h2>
-	<p>避難途中にチェックポイントをおいて、ボウサイカードをもちいたクイズに回答します</p>
-	<p>残課題１：「クイズとなるシチュエーション（状況変化説明：夜になってきました。→クイズ：毛布の質問）といったシミュレーションゲームにしたい</p>
-	<p>残課題２：回答したカードをGetするコレクター機能。コレクトしたカードによって擬人プレイヤーの敬称が変わるような成長を感じられるもの</p>
-	<p>残課題３：遊ぶ際には、参加者に擬人プレイヤーを与えて、体力低下やアイテムなどの要素を加えて、リアルなゲームとしたい（（絶体絶命都市のような）</p>
-	<p>残課題４：マルチプレイによる協力プレイを考えたい</p>
-
+	<p>ボウサイカードをもちいたクイズに回答します</p>
       <div class="table-responsive">
         <table class="table table-striped table-hover">
           <thead>
@@ -168,6 +245,7 @@ function setDefault() {
           </tbody>
         </table>
       </div>
+      -->
       <div class="modal" id="dialog" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content"></div>
@@ -175,9 +253,8 @@ function setDefault() {
       </div>
     </div>
   <div class="modal-footer">
-    <p>デモ版では下記ボタンは使用できません</p>
+    <span style="color:#dddddd;">デモ版では右記ボタンは使用できません</span>
     <button type="button" class="btn btn-primary">クエスト終了</button>
-    <button type="button" class="btn btn-primary">キャンセル</button>
   </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

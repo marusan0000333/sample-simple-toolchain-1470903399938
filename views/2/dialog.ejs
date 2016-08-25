@@ -31,17 +31,19 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
 // -->
 </script>
 
-<form method="POST" action="/memos4<%= id ? '/' + id + '?_method=PUT' : '' %>">
+<form method="POST" action="/memos2<%= id ? '/' + id + '?_method=PUT' : '' %>">
   <div class="modal-header">
+<!--
     <button type="button" class="close" data-dismiss="modal">
       <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
     </button>
-    <h4 class="modal-title" id="modalTitle">ボウサイカード　＜実践＞</h4>
+-->
+    <h4 class="modal-title" id="modalTitle">チェックポイント</h4>
 
     <fieldset>
       <div class="form-group">
-        <label for="title">カード名</label> 
-        <input type="text" class="form-control" id="title" name="title" maxlength='28' placeholder="タイトル" value="<%= doc ? doc.title : '' %>" readonly>
+        <label for="title">今の状況</label> 
+        <textarea class="form-control" id="content" name="content" rows="2"  maxlength='70' placeholder="問題の状況を記載してください" readonly><%= doc ? doc.content : '' %></textarea>
       </div>
 
   <div class="tabbox" style="display: none;">
@@ -50,15 +52,12 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
       <a href="#tab2" class="tab2" onclick="ChangeTab('tab2'); return false;" style="background:#ccffcc;border:#00ff00 solid 1px;">ゲーム用クイズ</a>
     </p>
   </div>
-
     </fieldset>
-
 
   <div class="modal-body">
     <div id="tab1" class="tab">
     <fieldset>
       <div class="form-group">	
-
 	<input style="display:none" name="attachment_name" id="attachment_name" value="">
 	<input style="display:none" name="attachment_type" id="attachment_type" value="">
 	<input style="display:none" name="attachment_lastModifiedDate" id="attachment_lastModifiedDate" value="">
@@ -139,11 +138,11 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
     </fieldset>
     </div>
   </div>
-
+<!--
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
   </div>
-
+-->
 	<script type="text/javascript">
 	<!-- // デフォルトのタブを選択
 	ChangeTab('tab2');

@@ -1,0 +1,83 @@
+
+
+<script type="text/javascript">
+<!--
+function viewTab(tabname) {
+  document.getElementById(tabname).style.display = 'block';
+}
+// -->
+</script>
+
+  <div class="modal-header">
+<!--
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span><span class="sr-only">閉じる</span>
+    </button>
+-->
+    <h4 id="modalTitle" style="color=#ff0000;">結果発表ーーー！！！</h4>
+  </div>
+  
+  <div class="modal-body">
+      <div class="form-group">
+		<img id="loadimage" src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/result.jpg" style="text-align:center;">
+	  </div>
+	  
+		<br>
+      <button type="button" class="btn btn-success" onclick="viewTab('goods');">結果を確認する</button>
+
+      <div id="goods" class="goods" style="display:none">
+		<div class="container">
+		        <div class="col-sm-8">
+		               <div class="bs-calltoaction bs-calltoaction-default">
+		                    <div class="row">
+		                        <div class="col-md-10 cta-contents">
+		                            <h1 class="cta-title">第一問　： 正解</h1>
+		                            <div class="cta-desc">
+		                                <p>おめでとうございます。あなたは一流ですね。</p>
+		                            </div>
+		                        </div>
+		                     </div>
+		                </div>
+			                
+		                <div class="bs-calltoaction bs-calltoaction-primary">
+	                    <div class="row">
+	                        <div class="col-md-10 cta-contents">
+	                            <h1 class="cta-title">第二問　： 正解</h1>
+	                            <div class="cta-desc">
+		                                <p>おめでとうございます。あなたは一流芸能人をキープしました。</p>
+	                            </div>
+	                        </div>
+	                     </div>
+
+		                <div class="bs-calltoaction bs-calltoaction-primary">
+	                    <div class="row">
+	                        <div class="col-md-10 cta-contents">
+	                            <h1 class="cta-title">第三問　： 正解</h1>
+	                            <div class="cta-desc">
+		                                <p>おめでとうございます。さすが、あなたは一流芸能人です。</p>
+	                            </div>
+	                        </div>
+	                     </div>
+
+	                </div>
+				</div>
+		</div>
+
+        <div class="col-md-6 cta-button">
+            <a href="#" class="btn btn-lg btn-block btn-default">参考情報リンク</a>
+        </div>
+<hr>
+        <label for="title">今回ゲットしたアイテム</label> 
+        <br>
+        <label for="title">水</label> 
+        <br>
+		<img id="loadimage" src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/mizu.jpg" style="text-align:center;">
+        <textarea class="form-control" id="content" name="content" rows="1" size='70' placeholder="" readonly>使うと水ゲージが回復するぞ！</textarea>
+	  </div>
+  </div>
+
+  <div class="modal-footer">
+      <a href="http://sample-simple-toolchain-1470903399938.mybluemix.net/menu">
+       <button type="button" class="btn btn-primary">メニューに戻る</button>
+	  </a>
+  </div>

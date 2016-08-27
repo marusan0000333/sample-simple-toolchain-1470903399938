@@ -97,24 +97,23 @@ function LoadImage(attachment_name,attachment_type,attachment_lastModifiedDate,a
     <fieldset>
       <div class="form-group">
 
-	<div  style="display: none;">
-        <label>出題カテゴリ</label> 
-	<br>
-	<select name="question_class" id="question_class" >
-		<option value="WHAT">WHAT:～とは何ですか？</option>
-		<option value="WHY">WHY:～はなぜですか？</option>
-		<option value="WHERE">WHERE:～はどこにありますか？</option>
-		<option value="WHEN">WHEN:～とはいつですか？</option>
-		<option value="HOW_MUCH">HOW_MUCH:～はいくらですか？</option>
-		<option value="HOW_MANY">HOW_MANY:～どれぐらい必要ですか？</option>
-		<option value="HOW_LONG">HOW_LONG:～はどのぐらいの期間ですか？</option>
-		<option value="WHO">WHO:～とは誰ですか？</option>
-		<option value="HOW">HOW:～はどうやればよいですか？</option>
-		<option value="WILL">WILL:～とどうなりますか？</option>
-	</select>
-	</div>
-	<br>
-
+		<div  style="display: none;">
+	        <label>出題カテゴリ</label> 
+		<br>
+		<select name="question_class" id="question_class" >
+			<option value="WHAT">WHAT:～とは何ですか？</option>
+			<option value="WHY">WHY:～はなぜですか？</option>
+			<option value="WHERE">WHERE:～はどこにありますか？</option>
+			<option value="WHEN">WHEN:～とはいつですか？</option>
+			<option value="HOW_MUCH">HOW_MUCH:～はいくらですか？</option>
+			<option value="HOW_MANY">HOW_MANY:～どれぐらい必要ですか？</option>
+			<option value="HOW_LONG">HOW_LONG:～はどのぐらいの期間ですか？</option>
+			<option value="WHO">WHO:～とは誰ですか？</option>
+			<option value="HOW">HOW:～はどうやればよいですか？</option>
+			<option value="WILL">WILL:～とどうなりますか？</option>
+		</select>
+		</div>
+		
         <label for="title">問題文</label> 
         <textarea class="form-control" id="question" name="question" rows="2"  maxlength='70' placeholder="問題文を記載してください" readonly><%= doc ? doc.question : '' %></textarea>
 

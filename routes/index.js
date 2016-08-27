@@ -33,10 +33,23 @@ router.get('/1/index', function(req, res) {
 });
 
 
+
+
+
+
+
 // (2-1)menu
 router.get('/2/playmenu', function(req, res) {
   memo.list(function(err, list) {
     res.render('2/playmenu', { version : package.version, list : list });
+  });
+});
+
+
+// (2-1)menu
+router.get('/2/playprologue', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('2/playprologue', { version : package.version, list : list });
   });
 });
 
@@ -55,6 +68,11 @@ router.get('/memos2/:id([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]
   memo.get(id, function(err, doc) {
     res.render('2/dialog', { id : id, doc : doc });
   });
+});
+
+// (2-2-3)結果発表
+router.get('/result', function(req, res) {
+  res.render('2/result', { id : null, doc : null });
 });
 
 

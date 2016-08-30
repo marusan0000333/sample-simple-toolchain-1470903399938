@@ -7,151 +7,30 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     
     <script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,shape.js,search.js&enc=UTF8&force=1" type="text/javascript"></script>
+	<script type="text/javascript">
+	//<![CDATA[
+	    var map, mrk,
+	        lat = 33.585329722, lon = 130.420721667;
+	
+	    function loadMap() {
+	        var latlon = new ZDC.LatLon(lat, lon);
+	        map = new ZDC.Map(
+	            document.getElementById('ZMap'),
+	            {
+	                latlon: latlon,
+	                zoom: 10
+	            }
+	        );
+	        /* マーカを作成 */
+	        mrk = new ZDC.Marker(latlon);
+	
+	        /* マーカを追加 */
+	        map.addWidget(mrk);
+	    }
+	//]]>
+	</script>
+	
 
-<script type="text/javascript">
-//<![CDATA[
-    var map;
-    var latLons = [];
-    var cnt = 1;
-
-    //日本, 〒812-0011 福岡県福岡市博多区博多駅前３丁目２?１ 日本生命博多駅前ビル 33.585400833, 130.420721667
-    //明治公園 33.585351944 130.420049444
-    //日本, 〒812-0011 福岡県福岡市博多区博多駅前４丁目１１?１２ 東住吉公民館 33.582903056 130.420793889
-
-    function loadMap() {
-    	//initialize
-    	latLons = [];
-    	cnt = 1;
-    	
-        map = new ZDC.Map(
-            document.getElementById("ZMap"),
-            {
-            	latlon: new ZDC.LatLon('33.585400833', '130.420721667'),
-                zoom: 11
-            });
-
-        /* 地図上の緯度経度を取得(getPointerPosition)できるようにする */
-        map.pointerPositionOn();
-        
-        /* 地図をクリックしたときの動作 */
-        ZDC.addListener(map, ZDC.MAP_CLICK, getClickLatLon);
-    }
-
-    function getClickLatLon() {
-        var pl, mrk;
-        if (cnt > 10) return;
-
-        /* クリックした緯度経度を保存 */
-        var itemLatLon = map.getClickLatLon();
-        latLons.push(itemLatLon);
-
-        /* クリックした地点にマーカを作成 */
-        mrk = new ZDC.Marker(map.getClickLatLon(),{
-            color: ZDC.MARKER_COLOR_ID_BLUE_S,
-            number: ZDC["MARKER_NUMBER_ID_" + cnt + "_S"]
-        });
-
-        /* マーカを追加 */
-        map.addWidget(mrk);
-        
-        /* マーカにイベントを追加 */
-        ZDC.addListener(mrk, ZDC.MARKER_MOUSEMOVE, onMouseMove);
-        ZDC.addListener(mrk, ZDC.MARKER_MOUSEDOWN, onMouseDown);
-        ZDC.addListener(mrk, ZDC.MARKER_MOUSEUP, onMouseUp);
-                
-        /* クリックした地点に線を引く */
-        if (cnt > 1) {
-            var lineLatLons = [];
-
-            lineLatLons.push(latLons[(cnt-2)]);
-            lineLatLons.push(itemLatLon);
-            pl = new ZDC.Polyline(lineLatLons,
-                {
-                    strokeWeight: 2,
-                    strokeColor: "#FF0000" 
-            });
-
-            /* 線を地図に追加 */
-            map.addWidget(pl);
-        }
-        cnt++;
-
-        /* documentにイベントを追加 */
-        ZDC.addDomListener(document, 'mouseup', onMouseUp);
-
-    }
-
-    function routeSearch() {
-        if (latLons.length < 2) {
-            alert("2ヶ所以上の地点を指定してください。");
-            return false;
-        } 
-
-        /* 点列から移動経路を推定 */
-        ZDC.Search.getRoadLinkByLatlons({
-            latlons: latLons
-            }, function(status, res) {
-                if (status.code == "000") {
-                    /* 取得成功 */
-                    routeDisp(status, res);
-                } else {
-                    /* 取得失敗 */
-                    alert(status.text);
-                }
-        });
-    }
-
-    /* 点列補正 */
-    function routeDisp(status, res) {
-        var item = res.item;
-        for (var i = 0, k = item.length; i < k; i++) {
-            var plRoute, ll = [];
-            for (var j = 0, l = item[i].roadLink.latlons.length; j < l; j++) {
-                ll.push(item[i].roadLink.latlons[j]);
-            }
-            /* 移動経路の線を引く */
-            plRoute = new ZDC.Polyline(ll,
-                {
-                    strokeWeight: 3,
-                    strokeColor: "#800080"
-                });
-
-            /* 線を地図に追加 */
-            map.addWidget(plRoute);
-        }
-    }
-
-    /* マウスダウンイベント処理 */
-    function onMouseDown() {
-        /* マウスダウン位置の緯度経度とマーカの緯度経度の差分を保持 */
-        var cLatLon = map.getPointerPosition();
-        difLat = cLatLon.lat - mkrLatLon.lat;
-        difLon = cLatLon.lon - mkrLatLon.lon;
-        dragging = true;
-    }
-
-    /* マウスムーブイベント処理 */
-    function onMouseMove() {
-        /* ドラッグ中のみ処理させる */
-        if(dragging) {
-            var latlon = map.getPointerPosition();
-
-            /* マーカ表示緯度経度を取得 */
-            var mkLat = latlon.lat - difLat;
-            var mkLon = latlon.lon - difLon;
-            mkrLatLon = new ZDC.LatLon(mkLat, mkLon);
-            mrk.moveLatLon(mkrLatLon);
-        }
-    }
-
-    /* マウスアップイベント処理 */
-    function onMouseUp() {
-        if(dragging) {
-            dragging = false;
-        }
-    }
-//]]>
-</script>
   </head>
   <body onload="loadMap()">
     <div class="container">
@@ -177,6 +56,15 @@
 
 	<h2>避難ルート</h2>
   <p>カードの追加・削除によって、自動的に経路が算出される（予定です）</p>
+  
+  <script>
+  <!--
+    //日本, 〒812-0011 福岡県福岡市博多区博多駅前３丁目２?１ 日本生命博多駅前ビル 33.588592, 130.418505
+    //明治公園 33.588618 130.417736
+    //日本, 〒812-0011 福岡県福岡市博多区博多駅前４丁目１１?１２ 東住吉公民館 33.586176 130.418465
+  --> 
+  </script>
+  
   <div id="ZMap" style="border:1px solid #777777; width:90%; height:300px;"></div>
 <!--    <div style="bottom:10px; left:10px; position:absolute;"> -->
 	<p>ルートを表示</p>

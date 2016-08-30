@@ -1,3 +1,6 @@
+<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,shape.js,search.js&enc=UTF8&force=1" type="text/javascript"></script>
+
+
 <script type="text/javascript">
   if (navigator.geolocation) {
     // 現在の位置情報を取得
@@ -165,6 +168,36 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         <input type="text" class="form-control" id="edit-longitude" name="longitude" placeholder="経度" value="<%= doc ? doc.longitude : '' %>" >
       </div>
 
+
+<script type="text/javascript">
+   //日本, 〒812-0011 福岡県福岡市博多区博多駅前３丁目２?１ 日本生命博多駅前ビル 33.585400833, 130.420721667
+    //明治公園 33.585351944 130.420049444
+    //日本, 〒812-0011 福岡県福岡市博多区博多駅前４丁目１１?１２ 東住吉公民館 33.582903056 130.420793889
+
+    var map, lat = 33.585400833, lon = 130.420721667;
+
+    function loadMap() {
+        map = new ZDC.Map(
+            document.getElementById('ZMap'),
+            {
+                latlon: new ZDC.LatLon(lat, lon),
+                zoom: 10
+            }
+        );
+        /* 地図をクリックしたときの動作 */
+        ZDC.addListener(map, ZDC.MAP_CLICK, getClickLatLon);
+    };
+
+    /* クリックした地点の緯度経度を表示する */
+    function getClickLatLon() {
+        var latlon =  map.getClickLatLon();
+        alert('緯度：' + latlon.lat + ' 経度：' + latlon.lon);
+    };
+</script>
+
+    <div id="ZMap" style="border:1px solid #777777; width:300px; height:300px;"></div>
+
+
     </fieldset>
     </div>
 
@@ -225,6 +258,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 	ChangeTab('tab1');
 	ChangeSelectbox('<%= doc ? doc.question_class : '' %>');
 	LoadImage('<%= doc ? doc.attachment_name : '' %>','<%= doc ? doc.attachment_type : '' %>','<%= doc ? doc.attachment_lastModifiedDate : '' %>','<%= doc ? doc.attachment_size : '' %>','<%= doc ? doc.attachment_base64 : '' %>');
+//	loadMap();
 	-->
 	</script>
 

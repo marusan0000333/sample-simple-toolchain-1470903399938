@@ -7,28 +7,36 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
 
-<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,shape.js,search.js&enc=UTF8&force=1" type="text/javascript"></script>
+<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,userwidget.js,search.js,shape.js&enc=UTF8&force=1" type="text/javascript"></script>
+
+<!-- 取得したdraggableroute.jsを別途インクルードする -->
+<script type="text/javascript" src="draggableroute-1.1.js"></script>
 <script type="text/javascript">
 //<![CDATA[
-    var map, lat = 33.585400833, lon = 130.420721667;
-
     function loadMap() {
-        map = new ZDC.Map(
-            document.getElementById('ZMap'),
-            {
-                latlon: new ZDC.LatLon(lat, lon),
-                zoom: 10
-            }
+        var map = new ZDC.Map(
+            document.getElementById('ZMap'), {zoom:10 }
         );
-        /* 地図をクリックしたときの動作 */
-        ZDC.addListener(map, ZDC.MAP_CLICK, getClickLatLon);
-    };
+        var query = {};
+        var opts = {};
 
-    /* クリックした地点の緯度経度を表示する */
-    function getClickLatLon() {
-        var latlon =  map.getClickLatLon();
-        alert('緯度：' + latlon.lat + ' 経度：' + latlon.lon);
-    };
+        //ルート探索スタート地点
+        query.from = new ZDC.LatLon(35.7187056, 139.9342056); 
+
+        //ルート探索ゴール地点
+        query.to = new ZDC.LatLon(35.6162972, 139.5653639);
+
+        //ルート探索のオプション(searchtype)を指定する場合
+        query.searchtype = 'dist';
+
+        //ルート線のデザインを指定
+        opts.polylineOpt =  {
+          strokeColor: '#3000ff', strokeWeight: 8, lineOpacity: 0.8
+        };
+
+        //ドラッグできるルートを重畳する
+        new ZDC.DraggableRoute(map, query, opts);
+    }
 //]]>
 </script>
 
@@ -36,18 +44,19 @@
   <body onload="loadMap()">
   
     <div class="container">
-      <h1>ボウサイGo<small> / Ver.<%= version %></small></h1>
+    <h1>ボウサイGo<small> / Ver.<%= version %></small></h1>
 
 	<h2>ルート</h2>
 	<p>避難ルートを表示。	地図をクリックして、確認したいポイントを選び、ルーと補正を押すと経路が自動的に算出されます
-	<a href="http://crisis.yahoo.co.jp/shelter/map/">参考：避難地図</a>
+		<a href="http://crisis.yahoo.co.jp/shelter/map/">参考：避難地図</a>
     </p>
 	
     <div id="ZMap" style="border:1px solid #777777; width:90%; height:300px;"></div>
 <!--    <div style="bottom:10px; left:10px; position:absolute;"> -->
+
     <div>
      <!-- <input type="button" value="補正" onclick="routeSearch();"/><br> -->
-     <button type="button" class="btn btn-success" onclick="routeSearch();">ルート補正</button>
+     <button type="button" class="btn btn-success" onclick="routeSearch();">保存</button>
      <button type="button" class="btn btn-info" onclick="loadMap();">リセット</button>
     </div>
 
@@ -90,7 +99,7 @@
           <div class="modal-content"></div>
         </div>
       </div>
-    </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">

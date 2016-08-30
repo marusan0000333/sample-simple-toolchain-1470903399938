@@ -5,83 +5,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bousai-Go</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,shape.js,search.js&enc=UTF8&force=1" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
 
+<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,search.js,shape.js&enc=UTF8&force=1" type="text/javascript"></script>
+<style type="text/css">
+<!--
+.personalboxtt{ font-size: 12px; font-family: "ＭＳ Ｐゴシック", Verdana, Helvetica; text-align: left; width:700px; height:20px; }
+.personalboxt { font-size: 12px; font-family: "ＭＳ Ｐゴシック", Verdana, Helvetica; text-align: right; width:120px; height:20px; }
+.dev{}
+.dev .personalboxtt { color: #000000; background-color: #80CC00; }
+.dev .personalboxt  { color: #003399; background-color: #B3D973; }
+.personalboxf{ font-size: 12px; font-family: "ＭＳ Ｐゴシック", Verdana, Helvetica; text-align: left; width:580px; height:20px; color: #003399; background-color: #F8F8F8; }
+.header2 {position: relative; }
+-->
+</style>
 <script type="text/javascript">
 //<![CDATA[
+    var map, from, to, msg_info,
+        lat = 33.585400833, lon = 130.420832778, imgdir ='http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/';
+    var guyde_type = {
+        'start': {
+            custom: {
+                base: {
+                    src: imgdir + 'Q1.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(0, 0)
+                },
+                content: {
+                    src: imgdir + 'Q1.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(0, 0)
+                }
+            },
+            offset: ZDC.Pixel(0, -36)
+        },
+        'end': {
+            custom: {
+                base: {
+                    src: imgdir + 'Q1.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(38, 0)
+                },
+                content: {
+                    src: imgdir + 'Q1.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(35, 0)
+                }
+            },
+            offset: ZDC.Pixel(0, -36)
+        }
+    };
 
-    function loadMap() {
-      var map = new ZDC.Map(document.getElementById('ZMap'));
-      var url = 'http://support.e-map.ne.jp/manuals/V20/image/msginfo/loadedMsgInfo.png';
+    var line_property = {
+        '通常通路': {strokeColor: '#3000ff', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '横断歩道': {strokeColor: '#008E00', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '横断通路': {strokeColor: '#007777', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '歩道橋': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '踏切内通路': {strokeColor: '#008800', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '連絡通路': {strokeColor: '#000088', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '建物内通路': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '敷地内通路': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '乗換リンク': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '通路外': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'}
+    };
 
-      /*比較のためここではブラウザキャッシュを残さない*/
-      var _url = url + '?' + Math.floor( Math.random() * 1000000 );
-/*
-      /*吹き出しを作成する*/
-      var msg = new ZDC.MsgInfo(
-          map.tlToLatLon(new ZDC.TL(200, 100)),
-          {html: '<div>通常</div><img src=' + _url + '>'}
-      );
-      map.addWidget(msg);
-      msg.open();
-*/
-      var img = new Image();
-      /*比較のためここではブラウザキャッシュを残さない*/
-      img.src = url + '?' + Math.floor( Math.random() * 1000000 );
+    function loadMap(){
+        var ll  = new ZDC.LatLon(lat, lon);
+        map = new ZDC.Map(document.getElementById('ZMap'),{
+            latlon: ll,
+            zoom: 7
+        });
 
-      /*画像をロードしてから吹き出しを作成する*/
-      img.onload = function() {
-          var msg = new ZDC.MsgInfo(
-            map.tlToLatLon(new ZDC.TL(200, 500)),
-            {html: '<div>onload後</div><img height='100' width='100' src=' + this.src + '>'}
-          );
-          map.addWidget(msg);
-          msg.open();
-      }
-    }
+        msg_info = new ZDC.MsgInfo(ll, {offset: ZDC.Pixel(0, -18)});
+        map.addWidget(msg_info);
+    };
 
+    function exec(){
+
+        /* スタート地点の緯度経度 */
+//        from = new ZDC.LatLon(33.585329722, 130.420766111);
+		var lat = document.getElementById("watson_lat").value;
+		var long = document.getElementById("watson_long").value;
+		
+        from = new ZDC.LatLon(lat, long);
+        
+        /* ゴール地点の緯度経度 */
+        to   = new ZDC.LatLon(33.582876389, 130.420788333);
+
+
+        ZDC.Search.getRouteByWalk({
+            from: from,
+            to: to
+        },function(status, res) {
+            if (status.code == '000') {
+                /* 取得成功 */
+                writeRoute(status, res);
+            } else {
+                /* 取得失敗 */
+                alert(status.text);
+            }
+        });
+    };
+
+
+    function writeRoute(status, res) {
+
+        /* スタートとゴールのアイコンを地図に重畳します */
+        var start = new ZDC.Marker(from,guyde_type['start']);
+        var end   = new ZDC.Marker(to,guyde_type['end']);
+        /*
+           スタートとゴールのウィジットが他のマーカの
+           下にならないようにz-indexを設定します
+        */
+        start.setZindex(110);
+        end.setZindex(110);
+
+        map.addWidget(start);
+        map.addWidget(end);
+
+        var link = res.route.link;
+
+        var pl, latlons = [];
+        for (var i=0, j=link.length; i<j; i++) {
+
+            var opt = line_property[link[i].type];
+            var pllatlons = [];
+
+            for (var k=0, l=link[i].line.length; k<l; k++) {
+                pllatlons.push(link[i].line[k]);
+
+                latlons[i] = link[i].line[0];
+
+                if(i == j-1 && k == 1) {
+                    latlons[i+1] = link[i].line[1];
+                }
+            }
+            var pl = new ZDC.Polyline(pllatlons, opt);
+            map.addWidget(pl);
+
+            if (link[i].type != '通常通路') {
+                var guide = link[i].type;
+
+                var mk = new ZDC.Marker(link[i].line[0]);
+                map.addWidget(mk);
+
+                /* マーカをクリックしたときの動作 */
+                ZDC.bind(mk, ZDC.MARKER_CLICK, {link: link[i]}, markerClick);
+            }
+        }
+        /* 地点が全て表示できる縮尺レベルを取得 */
+        var adjust = map.getAdjustZoom(latlons);
+        map.moveLatLon(adjust.latlon);
+        map.setZoom(adjust.zoom);
+    };
+
+    function markerClick() {
+
+        var html = '<div style = "width:200px; height:50px;">';
+            html += '<table border="1" style="width:180px;">';
+            html += '<tr>';
+            html += '<td width="35%" style="font-size:10pt;">通路種別</td>';
+            html += '<td style="font-size:10pt;">' + this.link.structureType + '</td>';
+            html += '</tr>';
+            html += '<tr>';
+            html += '<td style="font-size:10pt;">構造種別</td>';
+            html += '<td style="font-size:10pt;">'+ this.link.type +'</td>';
+            html += '</tr></table></div>';
+
+        msg_info.setHtml(html);
+        msg_info.moveLatLon(new ZDC.LatLon(this.link.line[0].lat, this.link.line[0].lon));
+        msg_info.open();
+    };
 //]]>
 </script>
-
   </head>
 
 
   <body onload="loadMap()">
     <div class="container">
-      <h1>被災なう</h1><small> / XYZ市</small>
-		<p>今、被災しても大丈夫ですか？不安な人向けにまちのボウサイ状態を可視化しました。この情報は全国の小学生～高校生が作っています。</p>
-		<p>被災したら最新の災害警報を入手できる <a href="https://www.google.org/crisisresponse/japan/index?hl=ja">Google 災害情報</a>で、
+      <h1>ボウサイ・フクオカ</h1>
+		<p>この情報は全国の小学生～高校生が作っています。</p>
+	        <input type="text" size="80" id="askWtext" value="避難所に行きたい">
+<!--	        <input type="button" id="askWbtn" value="質問"> -->
+	        <input type="button" value="避難ルート検索" onclick="exec();">
+
+
+<!--		<p>被災したら最新の災害警報を入手できる <a href="https://www.google.org/crisisresponse/japan/index?hl=ja">Google 災害情報</a>で、
 		最新情報を取得してください。</p>
+		-->
 	</div>
 	
 	<br>
-	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
 <hr width="90%">
     <div class="container">
-		<h2>防災情報</h2>
-		<p>今いる近くにあるボウサイ情報を表示します。（公開フラグが立っている情報のみ公開する予定だが、デモ版ではすべて表示されます）</p>
+		<h2>避難ルート探索</h2>
+		  <p>以下の情報が得られました。この情報は、自治体の封鎖情報などを随時反映しています。</p>
+		    <div id="ZMap" style="border:1px solid #777777; width:500px; height:300px; top:0px; left:20px;"></div>
+		    <div id="IBox" style="top:0px; left:540px;">
+		        <input type="text" id="watson_lat" value="33.587409722">
+		        <input type="text" id="watson_long" value="130.420988333">
+		    </div>
 	
-	        <h3 class="cta-title">教えて！ワトソンさん</h3><small>（演繹法による理解のための一般原理検索エンジン）</small>
-	        <p>ボウサイ情報でわからない一般知識は、ワトソンさんに聞いてみましょう。（質問ボタンを押すと、画面遷移します）</p>
-	        <p style="color: #dddddd;">
-	        ※教えてワトソンと同じ、一般知識や新聞記事情報を情報源にR&RのSolr検索を想定。<br>
-	        ※ゆくゆくはRankerの学習サイクルや、対話フローによる絞込みを想定。
-			</p>
-	        <input type="text" size="80" id="askWHtext" value="非常食定義配達サービスとは何ですか？">
-	        <input type="button" id="askWHbtn" value="質問" onClick="location.href='http://sample-simple-toolchain-1471153182415.mybluemix.net/'">
-	
-	        <h3 class="cta-title">それどこ？ワトソンさん</h3><small>（帰納法による理解のための事例検索型エンジン）</small>
-	        <p>実世界の中で探している情報をワトソンさんに聞くことで、ワトソンさんが知っている情報を教わることができます。（見た目だけで、質問ボタンは未済）</p>
-	        <p style="color: #dddddd;">
-			※防災ゲームの質問と応答・撮影メモを情報源にR&RのSolr検索を想定。<br>
-	        ※ゆくゆくはRankerの学習サイクルや、対話フローによる絞込みを想定。。
-			</p>
-	        <input type="text" size="80" id="askWtext" value="危険箇所はどこにありますか">
-	        <input type="button" id="askWbtn" value="質問">
-
-		  <h2>地図</h2>
-          <div id="ZMap" style="border:1px solid #777777; width:90%; height:300px;"></div>
-
 	      <div class="table-responsive">
 	        <table class="table table-striped table-hover">
 	          <thead>
@@ -104,7 +263,371 @@
 	          </tbody>
 	        </table>
 	      </div>
+	
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+<hr width="90%">
+	<br>
+        <h3 class="cta-title">教えて！ワトソンさん</h3>
+        <p>ボウサイ情報でわからない一般知識は、ワトソンさんに聞いてみましょう。</p>
+        <!--
+        <input type="text" size="80" id="askWHtext" value="土砂崩れの被害の新聞記事はありますか？">
+        <input type="button" id="askWHbtn" value="質問">
+        <p class='title'>WATSON API 実装例</p>
+        <p>自然言語入力→質問の意図理解→適切な回答を提供（音声発話も可能）→フィードバック取得により、検索精度を向上</p>
+        -->
+    	<iframe src="http://sample-simple-toolchain-1471153182415.mybluemix.net/" frameborder="0" width="100%" height="400px"></iframe>
+	<br>
+	<br>
+	
+	
+<div class="page-header">
+    <h1>新聞から読み解く<small>新聞は時系列で眺めることができる貴重なメディア（過去の新聞の再評価が行える）</small></h1>
+</div>
+
+<!-- Timeline - START -->
+<div class="container">
+    <ul class="timeline">
+        <li><!---Time Line Element--->
+          <div class="timeline-badge down"><i class="fa fa-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">2015年6月12日</h4>
+            </div>
+            <div class="timeline-body"><!---Time Line Body&Content--->
+              <p>クラス：テレビ</p>
+              <p>土砂崩れ・冠水相次ぐ</p>
+              <a href="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/pdf/17728091.pdf"><span>17728091.pdf</span></a>
+            </div>
+          </div>
+        </li>
+        
+        <li><!---Time Line Element--->
+          <div class="timeline-badge down"><i class="fa fa-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">2015年6月15日</h4>
+            </div>
+            <div class="timeline-body"><!---Time Line Body&Content--->
+              <p>クラス：テレビ</p>
+              <p>土砂崩れ・冠水相次ぐ</p>
+              <a href="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/pdf/17728054.pdf"><span>17728054.pdf</span></a>
+            </div>
+          </div>
+        </li>
+
+        <li><!---Time Line Element--->
+          <div class="timeline-badge down"><i class="fa fa-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">2015年6月19日</h4>
+            </div>
+            <div class="timeline-body"><!---Time Line Body&Content--->
+              <p>クラス：テレビ</p>
+              <p>中国で土砂崩れ</p>
+              <a href="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/pdf/17743278.pdf"><span>17743278.pdf</span></a>
+            </div>
+          </div>
+        </li>
+        
+        <li><!---Time Line Element--->
+          <div class="timeline-badge up"><i class="fa fa-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">2015年6月29日</h4>
+            </div>
+            <div class="timeline-body"><!---Time Line Body&Content--->
+              <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/17766546.jpg">
+              <p>クラス：画像</p>
+              <p>ドローンが上空から撮影した土砂崩れの発生現場（国交省九州地方整備局提供）</p>
+              <p>土砂崩れの現場ドローンで撮影</p>
+            </div>
+          </div>
+        </li>
+
+        <li><!---Time Line Element--->
+          <div class="timeline-badge up"><i class="fa fa-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">2015年6月29日</h4>
+            </div>
+            <div class="timeline-body"><!---Time Line Body&Content--->
+              <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/17766546-2.jpg">
+              <p>クラス：画像</p>
+              <p>土砂崩れ現場の調査に向けて飛び立つドローン</p>
+            </div>
+          </div>
+        </li>
+        
+        <li><!---Time Line Element--->
+          <div class="timeline-badge up"><i class="fa fa-thumbs-up"></i></div>
+          <div class="timeline-panel">
+            <div class="timeline-heading">
+              <h4 class="timeline-title">2015年12月25日</h4>
+            </div>
+            <div class="timeline-body"><!---Time Line Body&Content--->
+              <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/18155490.jpg">
+              <p>クラス：画像</p>
+              <p>土砂崩れ全壊した大分市一尺屋の倉庫</p>
+            </div>
+          </div>
+        </li>
+
+
+    </ul>
+</div>
+
+<style>
+.timeline {
+  list-style: none;
+  padding: 20px 0 20px;
+  position: relative;
+}
+.timeline:before {
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  content: " ";
+  width: 3px;
+  background-color: #CCCCCC;
+  left: 25px;
+  margin-left: -1.5px;
+}
+.timeline > li {
+  margin-bottom: 20px;
+  position: relative;
+}
+.timeline > li:before,
+.timeline > li:after {
+  content: " ";
+  display: table;
+}
+.timeline > li:after {
+  clear: both;
+}
+.timeline > li:before,
+.timeline > li:after {
+  content: " ";
+  display: table;
+}
+.timeline > li:after {
+  clear: both;
+}
+.timeline > li > .timeline-panel {
+  width: calc( 100% - 55px );
+  float: right;
+  border: 1px solid #d4d4d4;
+  border-radius: 22px;
+  padding: 10px;
+  position: relative;
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+.timeline > li > .timeline-panel:before {
+  position: absolute;
+  top: 26px;
+  left: -15px;
+  display: inline-block;
+}
+.timeline > li > .timeline-panel:after {
+  position: absolute;
+  top: 27px;
+  left: -14px;
+  display: inline-block;
+}
+.timeline > li > .timeline-badge {
+  color: #FFFF99;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1.4em;
+  text-align: center;
+  position: absolute;
+  top: 16px;
+  left: 13px;
+  
+  background-color: #666666;
+  z-index: 100;
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+.timeline > li.timeline-inverted > .timeline-panel {
+  float: left;
+}
+.timeline > li.timeline-inverted > .timeline-panel:before {
+  border-left-width: 0;
+  border-right-width: 15px;
+  right: -15px;
+  right: auto;
+}
+.timeline > li.timeline-inverted > .timeline-panel:after {
+  border-left-width: 0;
+  border-right-width: 14px;
+  left: -14px;
+  right: auto;
+}
+.timeline-badge.primary {
+  background-color: #006699  !important;
+}
+.timeline-badge.up {
+  background-color: #339933 !important;
+}
+.timeline-badge.down {
+  background-color: #CC3333 !important;
+}
+.timeline-badge.neutral {
+  background-color: #999999 !important;
+}
+.timeline-title {
+  margin-top: 0;
+  color: inherit;
+}
+.timeline-body > p,
+.timeline-body > ul {
+  margin-bottom: 0;
+}
+.timeline-body > p + p {
+  margin-top: 5px;
+}
+</style>
+<!-- Timeline - END -->
+
+
+
+
 	</div>
+	<br>
+	<br>
+	<br>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+<hr width="90%">
+    <div class="container">
+		<h2>みんな、どうしてる？</h2>
+		 <p>自分の近くにいる人と情報を交換しましょう。（音声認識機能を実装予定）</p>
+	        <label>国</label> 
+		<br>
+		<select name="question_class" id="question_class">
+			<option value="JP">日本</option>
+			<option value="FR">フランス</option>
+		</select>
+		<br>
+		<br>
+	        <input type="text" size="80" id="askWtext" value="みんな、帰国準備してる？">
+	        <input type="button" id="askWbtn" value="つぶやく">
+		<br>
+		      <div class="table-responsive">
+		        <table class="table table-striped table-hover">
+		          <thead>
+		            <tr>
+		              <th class="col-sm-8">つぶやき</th>
+		              <th class="col-sm-3 text-center">発信日時</th>
+		            </tr>
+		          </thead>
+		          <tbody>
+		            <tr>
+		              <td>
+		                防災リュックもっていっています。避難場所は東住吉公民館にいます。
+		              </td>
+		              <td class="text-center">
+		                2016/6/1 16:00:00
+		              </td>
+		            </tr>
+		            <tr>
+		              <td>
+		                防災リュックを持っていくほどではない？
+		              </td>
+		              <td class="text-center">
+		                2016/6/1 14:00:000
+		              </td>
+		            </tr>
+		          </tbody>
+		        </table>
+			</div>
+		</div>
+	
+	<br>
+	<br>
+	<br>
+
+
+
+
 
 <hr width="90%">
     <div class="container">
@@ -172,52 +695,6 @@
 	      </div>
 	</div>
 	
-<hr width="90%">
-    <div class="container">
-	
-		<h2>もしも被災したら、、被災情報共有</h2>
-		 <p>自分の近くにいる同一国や関係者と情報を交換しましょう。（外国人旅行者向けサービス）</p>
-	
-	        <label>国</label> 
-		<br>
-		<select name="question_class" id="question_class">
-			<option value="JP">日本</option>
-			<option value="FR">フランス</option>
-		</select>
-		<br>
-		<br>
-	        <input type="text" size="80" id="askWtext" value="みんな、帰国準備してる？">
-	        <input type="button" id="askWbtn" value="つぶやく">
-		<br>
-		      <div class="table-responsive">
-		        <table class="table table-striped table-hover">
-		          <thead>
-		            <tr>
-		              <th class="col-sm-8">つぶやき</th>
-		              <th class="col-sm-3 text-center">発信日時</th>
-		            </tr>
-		          </thead>
-		          <tbody>
-		            <tr>
-		              <td>
-		                津波きたら逃げるの無理じゃないか？
-		              </td>
-		              <td class="text-center">
-		                2016/6/1 16:00:00
-		              </td>
-		            </tr>
-		            <tr>
-		              <td>
-		                防災グッズをもってイベントに参加したい
-		              </td>
-		              <td class="text-center">
-		                2016/6/1 14:00:000
-		              </td>
-		            </tr>
-		          </tbody>
-		        </table>
-			</div>
-		</div>
 		
 <hr width="90%">
     <div class="container">

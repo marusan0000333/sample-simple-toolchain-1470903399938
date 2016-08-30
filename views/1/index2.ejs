@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script src="http://api.its-mo.com/cgi/loader.cgi?key=JSZf2b54f3ee3d0&ver=2.0&api=zdcmap.js,search.js,shape.js&enc=UTF8&force=1" type="text/javascript"></script>
+<style type="text/css">
+<!--
+.personalboxtt{ font-size: 12px; font-family: "ＭＳ Ｐゴシック", Verdana, Helvetica; text-align: left; width:700px; height:20px; }
+.personalboxt { font-size: 12px; font-family: "ＭＳ Ｐゴシック", Verdana, Helvetica; text-align: right; width:120px; height:20px; }
+.dev{}
+.dev .personalboxtt { color: #000000; background-color: #80CC00; }
+.dev .personalboxt  { color: #003399; background-color: #B3D973; }
+.personalboxf{ font-size: 12px; font-family: "ＭＳ Ｐゴシック", Verdana, Helvetica; text-align: left; width:580px; height:20px; color: #003399; background-color: #F8F8F8; }
+.header2 {position: relative; }
+-->
+</style>
+<script type="text/javascript">
+//<![CDATA[
+    var map, from, to, msg_info,
+        lat = 35.6778614, lon = 139.7703167, imgdir ='../../image/search/';
+    var guyde_type = {
+        'start': {
+            custom: {
+                base: {
+                    src: imgdir + 'route_bg.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(0, 0)
+                },
+                content: {
+                    src: imgdir + 'route_cat.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(0, 0)
+                }
+            },
+            offset: ZDC.Pixel(0, -36)
+        },
+        'end': {
+            custom: {
+                base: {
+                    src: imgdir + 'route_bg.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(38, 0)
+                },
+                content: {
+                    src: imgdir + 'route_cat.png',
+                    imgSize: new ZDC.WH(35, 35),
+                    imgTL: new ZDC.TL(35, 0)
+                }
+            },
+            offset: ZDC.Pixel(0, -36)
+        }
+    };
+
+    var line_property = {
+        '通常通路': {strokeColor: '#3000ff', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '横断歩道': {strokeColor: '#008E00', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '横断通路': {strokeColor: '#007777', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '歩道橋': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '踏切内通路': {strokeColor: '#008800', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '連絡通路': {strokeColor: '#000088', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '建物内通路': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '敷地内通路': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '乗換リンク': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'},
+        '通路外': {strokeColor: '#880000', strokeWeight: 5, lineOpacity: 0.5, lineStyle: 'solid'}
+    };
+
+    function loadMap(){
+        var ll  = new ZDC.LatLon(lat, lon);
+        map = new ZDC.Map(document.getElementById('ZMap'),{
+            latlon: ll,
+            zoom: 7
+        });
+
+        msg_info = new ZDC.MsgInfo(ll, {offset: ZDC.Pixel(0, -18)});
+        map.addWidget(msg_info);
+    };
+
+    function exec(){
+
+        /* スタート地点の緯度経度 */
+        from = new ZDC.LatLon(35.685754722, 139.785605556);
+        /* ゴール地点の緯度経度 */
+        to   = new ZDC.LatLon(35.669612, 139.75245);
+
+
+        ZDC.Search.getRouteByWalk({
+            from: from,
+            to: to
+        },function(status, res) {
+            if (status.code == '000') {
+                /* 取得成功 */
+                writeRoute(status, res);
+            } else {
+                /* 取得失敗 */
+                alert(status.text);
+            }
+        });
+    };
+
+
+    function writeRoute(status, res) {
+
+        /* スタートとゴールのアイコンを地図に重畳します */
+        var start = new ZDC.Marker(from,guyde_type['start']);
+        var end   = new ZDC.Marker(to,guyde_type['end']);
+        /*
+           スタートとゴールのウィジットが他のマーカの
+           下にならないようにz-indexを設定します
+        */
+        start.setZindex(110);
+        end.setZindex(110);
+
+        map.addWidget(start);
+        map.addWidget(end);
+
+        var link = res.route.link;
+
+        var pl, latlons = [];
+        for (var i=0, j=link.length; i<j; i++) {
+
+            var opt = line_property[link[i].type];
+            var pllatlons = [];
+
+            for (var k=0, l=link[i].line.length; k<l; k++) {
+                pllatlons.push(link[i].line[k]);
+
+                latlons[i] = link[i].line[0];
+
+                if(i == j-1 && k == 1) {
+                    latlons[i+1] = link[i].line[1];
+                }
+            }
+            var pl = new ZDC.Polyline(pllatlons, opt);
+            map.addWidget(pl);
+
+            if (link[i].type != '通常通路') {
+                var guide = link[i].type;
+
+                var mk = new ZDC.Marker(link[i].line[0]);
+                map.addWidget(mk);
+
+                /* マーカをクリックしたときの動作 */
+                ZDC.bind(mk, ZDC.MARKER_CLICK, {link: link[i]}, markerClick);
+            }
+        }
+        /* 地点が全て表示できる縮尺レベルを取得 */
+        var adjust = map.getAdjustZoom(latlons);
+        map.moveLatLon(adjust.latlon);
+        map.setZoom(adjust.zoom);
+    };
+
+    function markerClick() {
+
+        var html = '<div style = "width:200px; height:50px;">';
+            html += '<table border="1" style="width:180px;">';
+            html += '<tr>';
+            html += '<td width="35%" style="font-size:10pt;">通路種別</td>';
+            html += '<td style="font-size:10pt;">' + this.link.structureType + '</td>';
+            html += '</tr>';
+            html += '<tr>';
+            html += '<td style="font-size:10pt;">構造種別</td>';
+            html += '<td style="font-size:10pt;">'+ this.link.type +'</td>';
+            html += '</tr></table></div>';
+
+        msg_info.setHtml(html);
+        msg_info.moveLatLon(new ZDC.LatLon(this.link.line[0].lat, this.link.line[0].lon));
+        msg_info.open();
+    };
+//]]>
+</script>
+</head>
+
+<body onload="loadMap();">
+    <div id="ZMap" style="border:1px solid #777777; width:500px; height:300px; top:0px; left:20px; position:absolute;"></div>
+    <div id="IBox" style="top:0px; left:540px; position:absolute;">
+        <input type="button" value="歩行者ルート検索" onclick="exec();">
+    </div>
+</body>
+</html>

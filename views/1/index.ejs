@@ -30,7 +30,11 @@
     /* クリックした地点の緯度経度を表示する */
     function getClickLatLon() {
         var latlon =  map.getClickLatLon();
-        alert('緯度：' + latlon.lat + ' 経度：' + latlon.lon);
+        // alert('緯度：' + latlon.lat + ' 経度：' + latlon.lon);
+        
+        document.getElementById("lat").innerHTML = "lat" + latlon.lat;
+        document.getElementById("long").innerHTML = "lon:" + latlon.lon;
+
     };
 //]]>
 </script>
@@ -39,9 +43,16 @@
 </head>
 
 <body onload="loadMap();">
-    <div id="ZMap" style="border:1px solid #777777; width:100%; height:300px; top:0px; left:20px; position:absolute;"></div>
-    <div style="top:280px; left:540px; position:absolute;">
-     <input type="button" value="補正" onclick="routeSearch();"/><br>
-     </div>
+ <div class="form-group" style="position: relative;  width: 100%; height: 400px">
+    <div id="ZMap" style="border:1px solid #777777; width:100%; height:100%; top:0px; left:20px; position: absolute; z-index: 1;"></div>
+
+      <div id='lat' class='lat' height="40px" width="300px" style="background-color: #FFFFFF; position: absolute; z-index: 6; bottom:10px; right:150px;">
+        <p class='message' id='message'>lat</p>
+      </div>    
+      <div id='long' class='long' height="40px" width="300px" style="background-color: #FFFFFF;position: absolute; z-index: 6; bottom:100px; right:150px;">
+        <p class='message' id='message'>long</p>
+      </div>    
+
+  </div>
 </body>
 </html>

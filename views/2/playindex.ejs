@@ -59,7 +59,7 @@ var streetView;
     //日本, 〒812-0011 福岡県福岡市博多区博多駅前３丁目２?１ 日本生命博多駅前ビル 33.588592, 130.418505
     //明治公園 33.588618 130.417736
     //日本, 〒812-0011 福岡県福岡市博多区博多駅前４丁目１１?１２ 東住吉公民館 33.586176 130.418465
-var start = new google.maps.LatLng(33.588592,130.418505);
+var start = new google.maps.LatLng(33.588592, 130.418505); //33.588592,130.418505);
 var ckpt = new google.maps.LatLng(33.588618,130.417736);
 var end = new google.maps.LatLng(33.586176,130.418465);
 
@@ -68,11 +68,11 @@ function setStart() {
   mapCanvas.setZoom(17); 
   
   offMessageBox();
-  var message ="近くの公園に逃げよう！<br>それにしても、、、あ”づい”でぢゅう(水分-5)”";
+  var message ="近くの公園に逃げよう！<br>それにしても、、、あ”づい”でぢゅう(水分-30)”";
   document.getElementById("message").innerHTML = message;
   
-  document.getElementById("life").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage.png";
-  document.getElementById("pika").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png";
+  document.getElementById("life").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage2.png";
+  document.getElementById("pika").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic2.png";
   onMessageBox();
 }
 function setCheckPoint() {
@@ -80,7 +80,7 @@ function setCheckPoint() {
   mapCanvas.setZoom(17); 
 
   offMessageBox();
-  var message ="公園ついた！<br>あっ！！ここは避難所じゃない・・・でち”ゅう(水分-30)";
+  var message ="公園ついた！<br>あっ！！ここは避難所じゃない・・・でち”ゅう(水分-0)";
   document.getElementById("message").innerHTML = message;
 
   document.getElementById("life").src = "http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage2.png";
@@ -148,7 +148,7 @@ function onMessageBox() {
     var streetViewDiv = document.getElementById("streetview_canvas");
     var streetViewOptions = {
       position : new google.maps.LatLng(33.588592, 130.418505),
-      pov: { heading: 270.0, pitch:10, zoom:0 }
+      pov: { heading: 90.0, pitch:10, zoom:0 }
     };
     streetView = new google.maps.StreetViewPanorama(streetViewDiv, streetViewOptions);
     
@@ -168,10 +168,6 @@ function onMessageBox() {
   <body onload="initialize()">
     <div class="container">
       <h1>クエスト<small> / デモ用ゲーム１</small></h1>
-	<p>アバターの<span style="color:#ff0000;">ピカチ・・・</span>黄色い生物と一緒に避難しましょう。
-	このゲームは<a href="http://www.zettai-zetsumei.jp/">絶体絶命都市シリーズ</a>の
-	<a href="https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%A5">オマージュ</a>です。</p>
-	<p>スマホで見た場合<span style="color:#ff0000;">スマホの向きにあわせてGoogle Street Viewの画像が変わります</span>ぜひ、試してみてください！</p>
 
 <!--
 	<br>
@@ -209,16 +205,32 @@ function onMessageBox() {
 	  <img src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/Q1.png" height="20px" width="20px" style="position: absolute; z-index: 5; bottom:10px; left:70px;" onclick="setEnd();">
       </a>
 
-      <div id='messageBox' class='arrow_box' height="40px" width="300px" style="position: absolute; z-index: 6; bottom:10px; right:100px;" onclick="offMessageBox();">
-        <p class='message' id='message'>地震だ！</p>
+      <div id='messageBox' class='arrow_box' height="40px" width="300px" style="position: absolute; z-index: 6; bottom:40px; right:150px;" onclick="offMessageBox();">
+        <p class='message' id='message'>地震だ！とりあえず、そとに逃げてきたけど。<br>どうすればいい？？</p>
       </div>    
 	  <img id='life' src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/lifegage.png" height="20px" width="60%" style="position: absolute; z-index: 7; top:10px; right:50px;">
-	  <img id='pika' src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png" height="40px" width="40px" border="1" style="position: absolute; z-index: 8; bottom:10px; right:50px;" onclick="onMessageBox();">
+	  <img id='pika' src="http://sample-simple-toolchain-1470903399938.mybluemix.net/static/images/img-pic.png" height="100px" width="100px" border="1" style="position: absolute; z-index: 8; bottom:10px; right:50px;" onclick="onMessageBox();">
 	 </div>
     <button type="button" class="btn btn-success">ワトソンさんに聞く</button>
     <button type="button" class="btn btn-info">アイテムを使う</button>
     <span style="color:#dddddd;">デモ版では左記ボタンは使用できません</span>
 	<br>
+	<p>【解説】</p>
+	<p>	スマホで見た場合<span style="color:#ff0000;">スマホの向きにあわせてGoogle Street Viewの画像が変わります</span>ぜひ、試してみてください！
+	<br>現在はGoogleStreetViewですが、これでは被災の状況とマッチできません。
+	<br>そのため、ゲーム作成時から<span style="color:#0000ff;">Zenrin様の3Dマップ(Unityでは開発可能？）やAgoop様の人口移動情報</span>を使うことでリアリティを向上できると考えています。
+	</p>
+	<!--
+	<br>	
+	<p>【ゲーム概念】</p>
+	<p>	アバターの<span style="color:#ff0000;">ピカチ・・・</span>黄色い生物と一緒に避難しましょう。
+	</p>
+	-->
+	<p>
+	このゲームは<a href="http://www.zettai-zetsumei.jp/">絶体絶命都市シリーズ</a>の
+	<a href="https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%A5">オマージュ</a>です。
+	</p>
+	
 <!--
 	<h2>チェックポイントクイズ</h2>
 	<p>ボウサイカードをもちいたクイズに回答します</p>
@@ -252,9 +264,17 @@ function onMessageBox() {
       </div>
     </div>
   <div class="modal-footer">
-    <span style="color:#dddddd;">デモ版では右記ボタンは使用できません</span>
+    <a href="http://sample-simple-toolchain-1470903399938.mybluemix.net/8/viewindex">
+    <button type="button" class="btn btn-info">外部の人が見るページへ</button>
+    </a>
+
+    <a href="http://sample-simple-toolchain-1470903399938.mybluemix.net/1/index2">
+    <button type="button" class="btn btn-info">全画面モード</button>
+    </a>
+
+
     <a href="#" data-remote="http://sample-simple-toolchain-1470903399938.mybluemix.net/result/" data-toggle="modal" data-target="#dialog" data-backdrop="static" data-keyboard="false">
-    <button type="button" class="btn btn-primary">クエスト終了</button>
+    <button type="button" class="btn btn-primary">採点</button>
     </a>
   </div>
 

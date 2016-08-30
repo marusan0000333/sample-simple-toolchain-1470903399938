@@ -32,6 +32,13 @@ router.get('/1/index', function(req, res) {
   });
 });
 
+// (1-1)test
+router.get('/1/index2', function(req, res) {
+  memo.list(function(err, list) {
+    res.render('1/index2', { version : process.env.itsumo_navi, list : list });
+  });
+});
+
 
 
 
